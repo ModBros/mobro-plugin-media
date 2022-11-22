@@ -1,0 +1,7 @@
+{
+  "name": "modbros_media",
+  "displayName": "Media",
+  "author": "ModBros",
+  "description": null,
+  "assembly": "Plugin.Media.dll"
+}
