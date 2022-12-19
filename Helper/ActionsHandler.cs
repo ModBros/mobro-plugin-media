@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using MoBro.Plugin.SDK;
 using MoBro.Plugin.SDK.Builders;
 using MoBro.Plugin.SDK.Enums;
@@ -9,12 +10,17 @@ namespace MoBro.Plugin.Media.Helper;
 internal class ActionsHandler
 {
   private readonly MediaManager _mediaManager;
+  private readonly IMoBroService _service;
 
   public ActionsHandler(MediaManager mediaManager, IMoBroService service)
   {
     _mediaManager = mediaManager;
+    _service = service;
+  }
 
-    service.RegisterItems(GetActions());
+  public void Start()
+  {
+    _service.RegisterItems(GetActions());
   }
 
   private IEnumerable<IAction> GetActions()
@@ -26,6 +32,15 @@ internal class ActionsHandler
       .OfCategory(CoreCategory.Media)
       .OfNoGroup()
       .WithHandler(VolumeUp)
+      .WithSetting(b => b
+        .WithName("step_amount")
+        .WithLabel("Step width")
+        .OfTypeNumeric()
+        .WithDefault(1)
+        .WithMin(1)
+        .WithMax(100)
+        .Build()
+      )
       .Build();
 
     yield return MoBroItem
@@ -35,6 +50,15 @@ internal class ActionsHandler
       .OfCategory(CoreCategory.Media)
       .OfNoGroup()
       .WithHandler(VolumeDown)
+      .WithSetting(b => b
+        .WithName("step_amount")
+        .WithLabel("Step width")
+        .OfTypeNumeric()
+        .WithDefault(1)
+        .WithMin(1)
+        .WithMax(100)
+        .Build()
+      )
       .Build();
 
     yield return MoBroItem
@@ -45,7 +69,6 @@ internal class ActionsHandler
       .OfNoGroup()
       .WithHandler(Play)
       .Build();
-
 
     yield return MoBroItem
       .CreateAction()

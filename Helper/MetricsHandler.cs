@@ -17,14 +17,17 @@ internal class MetricsHandler
     _mediaManager = mediaManager;
     _service = service;
     _values = new Dictionary<string, object?>();
+  }
 
+  public void Start()
+  {
     _service.RegisterItems(GetMetrics());
   }
 
   public async Task UpdateValues()
   {
     _mediaManager.ForceUpdate();
-    
+
     // master volume
     UpdateValue(Ids.Metric.MVolume, (int)AudioManager.GetMasterVolume());
 
@@ -45,7 +48,7 @@ internal class MetricsHandler
   private void UpdateValue(string id, object? value)
   {
     if (_values.TryGetValue(id, out var storedVal) && Equals(storedVal, value)) return;
-    
+
     _values[id] = value;
     _service.UpdateMetricValue(id, value);
   }
