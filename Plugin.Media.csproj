@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
+        <TargetFramework>net7.0-windows10.0.22000.0</TargetFramework>
         <RootNamespace>MoBro.Plugin.Media</RootNamespace>
         <Authors>ModBros</Authors>
         <Company>ModBros OG</Company>
@@ -16,7 +16,7 @@
         <Nullable>enable</Nullable>
         <EnableDynamicLoading>true</EnableDynamicLoading>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-        <LangVersion>10</LangVersion>
+        <LangVersion>11</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -35,8 +35,8 @@
 
     <ItemGroup>
 <!--        <PackageReference Include="CoreAudio" Version="1.19.0" />-->
-        <PackageReference Include="Dubya.WindowsMediaController" Version="2.3.2" />
-        <PackageReference Include="MoBro.Plugin.SDK" Version="0.1.1" />
+        <PackageReference Include="Dubya.WindowsMediaController" Version="2.4.0" />
+        <PackageReference Include="MoBro.Plugin.SDK" Version="0.1.2" />
     </ItemGroup>
 
 </Project>
