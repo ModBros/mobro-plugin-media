@@ -10,6 +10,7 @@ public sealed class Media : IMoBroPlugin
 {
   private static readonly TimeSpan UpdateInterval = TimeSpan.FromMilliseconds(500);
 
+  private readonly IMoBroService _service;
   private readonly Timer _timer;
   private readonly MediaManager _mediaManager;
   private readonly MetricsHandler _metricsHandler;
@@ -17,6 +18,7 @@ public sealed class Media : IMoBroPlugin
 
   public Media(IMoBroService service)
   {
+    _service = service;
     _timer = new Timer
     {
       Interval = UpdateInterval.TotalMilliseconds,
@@ -44,8 +46,15 @@ public sealed class Media : IMoBroPlugin
 
   private void OnTimer(object? sender, ElapsedEventArgs e)
   {
-    _metricsHandler.UpdateValues().GetAwaiter().GetResult();
-    _timer.Start();
+    try
+    {
+      _metricsHandler.UpdateValues().GetAwaiter().GetResult();
+      _timer.Start();
+    }
+    catch (Exception exception)
+    {
+      _service.NotifyError(exception);
+    }
   }
 
   public void Dispose()
