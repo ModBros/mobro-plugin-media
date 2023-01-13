@@ -1,7 +1,7 @@
-using MoBro.Plugin.SDK;
 using MoBro.Plugin.SDK.Builders;
 using MoBro.Plugin.SDK.Enums;
 using MoBro.Plugin.SDK.Models.Metrics;
+using MoBro.Plugin.SDK.Services;
 using WindowsMediaController;
 
 namespace MoBro.Plugin.Media.Helper;
@@ -21,7 +21,7 @@ internal class MetricsHandler
 
   public void Start()
   {
-    _service.RegisterItems(GetMetrics());
+    _service.Register(GetMetrics());
   }
 
   public async Task UpdateValues()

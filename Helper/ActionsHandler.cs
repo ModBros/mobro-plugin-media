@@ -1,8 +1,8 @@
 using System.Diagnostics;
-using MoBro.Plugin.SDK;
 using MoBro.Plugin.SDK.Builders;
 using MoBro.Plugin.SDK.Enums;
 using MoBro.Plugin.SDK.Models.Actions;
+using MoBro.Plugin.SDK.Services;
 using WindowsMediaController;
 
 namespace MoBro.Plugin.Media.Helper;
@@ -20,7 +20,7 @@ internal class ActionsHandler
 
   public void Start()
   {
-    _service.RegisterItems(GetActions());
+    _service.Register(GetActions());
   }
 
   private IEnumerable<IAction> GetActions()

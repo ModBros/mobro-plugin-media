@@ -1,31 +1,26 @@
-﻿using System.Timers;
-using MoBro.Plugin.Media.Helper;
+﻿using MoBro.Plugin.Media.Helper;
 using MoBro.Plugin.SDK;
+using MoBro.Plugin.SDK.Services;
 using WindowsMediaController;
-using Timer = System.Timers.Timer;
 
 namespace MoBro.Plugin.Media;
 
 public sealed class Media : IMoBroPlugin
 {
   private static readonly TimeSpan UpdateInterval = TimeSpan.FromMilliseconds(500);
+  private static readonly TimeSpan InitialDelay = TimeSpan.FromSeconds(2);
 
   private readonly IMoBroService _service;
-  private readonly Timer _timer;
+  private readonly IMoBroScheduler _scheduler;
+
   private readonly MediaManager _mediaManager;
   private readonly MetricsHandler _metricsHandler;
   private readonly ActionsHandler _actionsHandler;
 
-  public Media(IMoBroService service)
+  public Media(IMoBroService service, IMoBroScheduler scheduler)
   {
     _service = service;
-    _timer = new Timer
-    {
-      Interval = UpdateInterval.TotalMilliseconds,
-      AutoReset = false,
-      Enabled = false
-    };
-    _timer.Elapsed += OnTimer;
+    _scheduler = scheduler;
 
     _mediaManager = new MediaManager();
     _metricsHandler = new MetricsHandler(_mediaManager, service);
@@ -37,24 +32,13 @@ public sealed class Media : IMoBroPlugin
     _mediaManager.Start();
     _metricsHandler.Start();
     _actionsHandler.Start();
-    _timer.Start();
+
+    _scheduler.Interval(OnTimer, UpdateInterval, InitialDelay);
   }
 
-  public void Pause() => _timer.Stop();
-
-  public void Resume() => _timer.Start();
-
-  private void OnTimer(object? sender, ElapsedEventArgs e)
+  private void OnTimer()
   {
-    try
-    {
-      _metricsHandler.UpdateValues().GetAwaiter().GetResult();
-      _timer.Start();
-    }
-    catch (Exception exception)
-    {
-      _service.NotifyError(exception);
-    }
+    _metricsHandler.UpdateValues().GetAwaiter().GetResult();
   }
 
   public void Dispose()
