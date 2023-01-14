@@ -9,7 +9,7 @@
         <Description>Media Plugin for MoBro</Description>
         <IsPackable>true</IsPackable>
         <Title>MoBro Media Plugin</Title>
-        <Copyright>(C) ModBros OG 2022</Copyright>
+        <Copyright>(C) ModBros OG 2023</Copyright>
         <PackageProjectUrl>www.mod-bros.com</PackageProjectUrl>
         <VersionPrefix>0.0.1</VersionPrefix>
         <ImplicitUsings>enable</ImplicitUsings>
