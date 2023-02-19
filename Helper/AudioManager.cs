@@ -1,8 +1,6 @@
-namespace MoBro.Plugin.Media;
-
-using System;
 using System.Runtime.InteropServices;
 
+namespace MoBro.Plugin.Media.Helper;
 
 /// <summary>
 /// Controls audio using the Windows CoreAudio API
