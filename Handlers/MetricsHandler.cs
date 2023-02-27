@@ -33,10 +33,18 @@ internal class MetricsHandler
     UpdateValue(Ids.Metric.MVolume, (int)AudioManager.GetMasterVolume());
 
     // artist + title
-    var control = _mediaManager.GetFocusedSession().ControlSession;
-    var properties = await control.TryGetMediaPropertiesAsync();
-    UpdateValue(Ids.Metric.Title, properties.Title);
-    UpdateValue(Ids.Metric.Artist, properties.Artist);
+    var session = _mediaManager.GetFocusedSession();
+    if (session != null)
+    {
+      var properties = await session.ControlSession.TryGetMediaPropertiesAsync();
+      UpdateValue(Ids.Metric.Title, properties.Title);
+      UpdateValue(Ids.Metric.Artist, properties.Artist);
+    }
+    else
+    {
+      UpdateValue(Ids.Metric.Title, null);
+      UpdateValue(Ids.Metric.Artist, null);
+    }
 
     // title progress
     // var timeline = control.GetTimelineProperties();
