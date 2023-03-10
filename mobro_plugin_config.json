@@ -3,5 +3,6 @@
   "displayName": "Media",
   "author": "ModBros",
   "description": null,
-  "assembly": "Plugin.Media.dll"
+  "assembly": "Plugin.Media.dll",
+  "localization": "Resources/Localization"
 }

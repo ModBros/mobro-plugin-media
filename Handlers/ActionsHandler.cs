@@ -4,18 +4,15 @@ using MoBro.Plugin.SDK.Builders;
 using MoBro.Plugin.SDK.Enums;
 using MoBro.Plugin.SDK.Models.Actions;
 using MoBro.Plugin.SDK.Services;
-using WindowsMediaController;
 
 namespace MoBro.Plugin.Media.Handlers;
 
 internal class ActionsHandler
 {
-  private readonly MediaManager _mediaManager;
   private readonly IMoBroService _service;
 
-  public ActionsHandler(MediaManager mediaManager, IMoBroService service)
+  public ActionsHandler(IMoBroService service)
   {
-    _mediaManager = mediaManager;
     _service = service;
   }
 
@@ -36,7 +33,7 @@ internal class ActionsHandler
       .WithSetting(b => b
         .WithName("step_amount")
         .WithLabel("Step width")
-        .OfTypeNumeric()
+        .OfTypeNumber()
         .WithDefault(1)
         .WithMin(1)
         .WithMax(100)
@@ -54,7 +51,7 @@ internal class ActionsHandler
       .WithSetting(b => b
         .WithName("step_amount")
         .WithLabel("Step width")
-        .OfTypeNumeric()
+        .OfTypeNumber()
         .WithDefault(1)
         .WithMin(1)
         .WithMax(100)
@@ -111,11 +108,23 @@ internal class ActionsHandler
     AudioManager.StepMasterVolume(-stepAmount);
   }
 
-  private void Play() => _mediaManager.GetFocusedSession().ControlSession.TryPlayAsync();
+  private void Play()
+  {
+    // TODO
+  }
 
-  private void Pause() => _mediaManager.GetFocusedSession().ControlSession.TryPauseAsync();
+  private void Pause()
+  {
+    // TODO
+  }
 
-  private void Next() => _mediaManager.GetFocusedSession().ControlSession.TrySkipNextAsync();
+  private void Next()
+  {
+    // TODO
+  }
 
-  private void Previous() => _mediaManager.GetFocusedSession().ControlSession.TrySkipPreviousAsync();
+  private void Previous()
+  {
+    // TODO
+  }
 }

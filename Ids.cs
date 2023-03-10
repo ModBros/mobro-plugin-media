@@ -8,9 +8,9 @@ internal static class Ids
     internal const string Artist = "m_artist";
     internal const string MVolume = "m_mvol";
     internal const string Progress = "m_progress";
-    internal const string Duration = "m_duration";
-    internal const string Position = "m_position";
-    internal const string Remaining = "m_remaining";
+    internal const string DurationTotal = "m_duration_total";
+    internal const string DurationPassed = "m_duration_passed";
+    internal const string DurationRemaining = "m_duration_remaining";
   }
 
   internal static class Action

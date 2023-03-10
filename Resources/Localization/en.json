@@ -1,0 +1,16 @@
+{
+  "m_title_label": "Title",
+  "m_title_desc": "The title of the current media item",
+  "m_artist_label": "Artist",
+  "m_artist_desc": "The artist of the current media item",
+  "m_mvol_label": "Volume",
+  "m_mvol_desc": "The current master volume",
+  "m_progress_label": "Progress",
+  "m_progress_desc": "The percentage progress of the current media item",
+  "m_duration_total_label": "Total duration",
+  "m_duration_total_desc": "The total duration of the current media item",
+  "m_duration_passed_label": "Passed duration",
+  "m_duration_passed_desc": "The already passed duration of the current media item",
+  "m_duration_remaining_label": "Remaining duration",
+  "m_duration_remaining_desc": "The remaining duration of the current media item"
+}

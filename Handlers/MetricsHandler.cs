@@ -1,23 +1,24 @@
+using Windows.Media.Control;
 using MoBro.Plugin.Media.Helper;
 using MoBro.Plugin.SDK.Builders;
 using MoBro.Plugin.SDK.Enums;
 using MoBro.Plugin.SDK.Models.Metrics;
 using MoBro.Plugin.SDK.Services;
-using WindowsMediaController;
 
 namespace MoBro.Plugin.Media.Handlers;
 
 internal class MetricsHandler
 {
-  private readonly IDictionary<string, object?> _values;
-  private readonly MediaManager _mediaManager;
   private readonly IMoBroService _service;
 
-  public MetricsHandler(MediaManager mediaManager, IMoBroService service)
+  private GlobalSystemMediaTransportControlsSessionManager _sm;
+  private DateTime _lastPlaying;
+
+  public MetricsHandler(IMoBroService service)
   {
-    _mediaManager = mediaManager;
     _service = service;
-    _values = new Dictionary<string, object?>();
+    _sm = GlobalSystemMediaTransportControlsSessionManager.RequestAsync().GetAwaiter().GetResult();
+    _lastPlaying = DateTime.UtcNow;
   }
 
   public void Start()
@@ -27,111 +28,118 @@ internal class MetricsHandler
 
   public async Task UpdateValues()
   {
-    _mediaManager.ForceUpdate();
-
     // master volume
-    UpdateValue(Ids.Metric.MVolume, (int)AudioManager.GetMasterVolume());
+    _service.UpdateMetricValue(Ids.Metric.MVolume, (int)AudioManager.GetMasterVolume());
+
+    var session = await GetSession();
+    var mediaProps = session == null ? null : await session.TryGetMediaPropertiesAsync();
+    var timelineProps = session?.GetTimelineProperties();
+    var playbackInfo = session?.GetPlaybackInfo();
 
     // artist + title
-    var session = _mediaManager.GetFocusedSession();
-    if (session != null)
+    if (mediaProps != null)
     {
-      var properties = await session.ControlSession.TryGetMediaPropertiesAsync();
-      UpdateValue(Ids.Metric.Title, properties.Title);
-      UpdateValue(Ids.Metric.Artist, properties.Artist);
+      _service.UpdateMetricValue(Ids.Metric.Title, mediaProps.Title);
+      _service.UpdateMetricValue(Ids.Metric.Artist, mediaProps.Artist);
     }
     else
     {
-      UpdateValue(Ids.Metric.Title, null);
-      UpdateValue(Ids.Metric.Artist, null);
+      _service.UpdateMetricValue(Ids.Metric.Title, null);
+      _service.UpdateMetricValue(Ids.Metric.Artist, null);
     }
 
-    // title progress
-    // var timeline = control.GetTimelineProperties();
-    // UpdateValue(Ids.Metric.Progress, 100 / timeline.EndTime.TotalSeconds * timeline.Position.TotalSeconds);
-    // UpdateValue(Ids.Metric.Duration, timeline.EndTime);
-    // UpdateValue(Ids.Metric.Position, timeline.Position);
-    // UpdateValue(Ids.Metric.Remaining, timeline.EndTime - timeline.Position);
+    // progress values
+    if (timelineProps != null && playbackInfo != null)
+    {
+      if (playbackInfo.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+      {
+        _lastPlaying = DateTime.UtcNow;
+      }
+
+      var passedPlayingTime = _lastPlaying - timelineProps.LastUpdatedTime.UtcDateTime;
+      var totalTime = timelineProps.EndTime;
+      var position = timelineProps.Position + (passedPlayingTime.Ticks > 0 ? passedPlayingTime : TimeSpan.Zero);
+      var remaining = totalTime - position;
+      var progress = position.TotalSeconds / totalTime.TotalSeconds;
+
+      _service.UpdateMetricValue(Ids.Metric.DurationPassed, position);
+      _service.UpdateMetricValue(Ids.Metric.DurationTotal, totalTime);
+      _service.UpdateMetricValue(Ids.Metric.DurationRemaining, remaining.Ticks > 0 ? remaining : TimeSpan.Zero);
+      _service.UpdateMetricValue(Ids.Metric.Progress, Math.Min(100, Math.Ceiling(progress * 100)));
+    }
+    else
+    {
+      _service.UpdateMetricValue(Ids.Metric.DurationPassed, TimeSpan.Zero);
+      _service.UpdateMetricValue(Ids.Metric.DurationTotal, TimeSpan.Zero);
+      _service.UpdateMetricValue(Ids.Metric.DurationRemaining, TimeSpan.Zero);
+      _service.UpdateMetricValue(Ids.Metric.Progress, 0D);
+    }
   }
 
-  private void UpdateValue(string id, object? value)
+  private async Task<GlobalSystemMediaTransportControlsSession?> GetSession()
   {
-    if (_values.TryGetValue(id, out var storedVal) && Equals(storedVal, value)) return;
-
-    _values[id] = value;
-    _service.UpdateMetricValue(id, value);
+    var session = _sm?.GetCurrentSession();
+    if (session != null) return session;
+    // the SessionManager seems to not pick up media sessions if it was created while there was no active session
+    // so in this case we just recreate it
+    _sm = await GlobalSystemMediaTransportControlsSessionManager.RequestAsync();
+    return _sm.GetCurrentSession();
   }
 
-  private IEnumerable<IMetric> GetMetrics()
+  private static IEnumerable<IMetric> GetMetrics()
   {
-    yield return MoBroItem
-      .CreateMetric()
-      .WithId(Ids.Metric.Title)
-      .WithLabel("Title")
+    yield return Metric(Ids.Metric.Title)
       .OfType(CoreMetricType.Text)
       .OfCategory(CoreCategory.Media)
       .OfNoGroup()
       .AsDynamicValue()
       .Build();
 
-    yield return MoBroItem
-      .CreateMetric()
-      .WithId(Ids.Metric.Artist)
-      .WithLabel("Artist")
+    yield return Metric(Ids.Metric.Artist)
       .OfType(CoreMetricType.Text)
       .OfCategory(CoreCategory.Media)
       .OfNoGroup()
       .AsDynamicValue()
       .Build();
 
-    yield return MoBroItem
-      .CreateMetric()
-      .WithId(Ids.Metric.MVolume)
-      .WithLabel("Volume")
+    yield return Metric(Ids.Metric.MVolume)
       .OfType(CoreMetricType.Usage)
       .OfCategory(CoreCategory.Media)
       .OfNoGroup()
       .AsDynamicValue()
       .Build();
 
-    // yield return MoBroItem
-    //   .CreateMetric()
-    //   .WithId(Ids.Metric.Progress)
-    //   .WithLabel("Progress")
-    //   .OfType(CoreMetricType.Usage)
-    //   .OfCategory(CoreCategory.Media)
-    //   .OfNoGroup()
-    //   .AsDynamicValue()
-    //   .Build();
-    //
-    // yield return MoBroItem
-    //   .CreateMetric()
-    //   .WithId(Ids.Metric.Duration)
-    //   .WithLabel("Duration")
-    //   .OfType(CoreMetricType.Duration)
-    //   .OfCategory(CoreCategory.Media)
-    //   .OfNoGroup()
-    //   .AsDynamicValue()
-    //   .Build();
-    //
-    // yield return MoBroItem
-    //   .CreateMetric()
-    //   .WithId(Ids.Metric.Position)
-    //   .WithLabel("Position")
-    //   .OfType(CoreMetricType.Duration)
-    //   .OfCategory(CoreCategory.Media)
-    //   .OfNoGroup()
-    //   .AsDynamicValue()
-    //   .Build();
-    //
-    // yield return MoBroItem
-    //   .CreateMetric()
-    //   .WithId(Ids.Metric.Remaining)
-    //   .WithLabel("Remaining")
-    //   .OfType(CoreMetricType.Duration)
-    //   .OfCategory(CoreCategory.Media)
-    //   .OfNoGroup()
-    //   .AsDynamicValue()
-    //   .Build();
+    yield return Metric(Ids.Metric.Progress)
+      .OfType(CoreMetricType.Usage)
+      .OfCategory(CoreCategory.Media)
+      .OfNoGroup()
+      .AsDynamicValue()
+      .Build();
+
+    yield return Metric(Ids.Metric.DurationTotal)
+      .OfType(CoreMetricType.Duration)
+      .OfCategory(CoreCategory.Media)
+      .OfNoGroup()
+      .AsDynamicValue()
+      .Build();
+
+    yield return Metric(Ids.Metric.DurationPassed)
+      .OfType(CoreMetricType.Duration)
+      .OfCategory(CoreCategory.Media)
+      .OfNoGroup()
+      .AsDynamicValue()
+      .Build();
+
+    yield return Metric(Ids.Metric.DurationRemaining)
+      .OfType(CoreMetricType.Duration)
+      .OfCategory(CoreCategory.Media)
+      .OfNoGroup()
+      .AsDynamicValue()
+      .Build();
   }
+
+  private static MetricBuilder.ITypeStage Metric(string id) => MoBroItem
+    .CreateMetric()
+    .WithId(id)
+    .WithLabel(id + "_label", id + "_desc");
 }

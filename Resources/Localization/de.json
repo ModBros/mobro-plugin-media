@@ -1,0 +1,16 @@
+{
+  "m_title_label": "Titel",
+  "m_title_desc": "Der Titel des aktuellen Medienelements",
+  "m_artist_label": "Künstler",
+  "m_artist_desc": "Der Künstler des aktuellen Medienelements",
+  "m_mvol_label": "Lautstärke",
+  "m_mvol_desc": "Die aktuelle Master-Lautstärke",
+  "m_progress_label": "Fortschritt",
+  "m_progress_desc": "Der prozentuale Fortschritt des aktuellen Medienelements",
+  "m_duration_total_label": "Gesamtdauer",
+  "m_duration_total_desc": "Die Gesamtdauer des aktuellen Medienelements",
+  "m_duration_passed_label": "Vergangene Dauer",
+  "m_duration_passed_desc": "Die bereits vergangene Dauer des aktuellen Medienelements",
+  "m_duration_remaining_label": "Verbleibende Dauer",
+  "m_duration_remaining_desc": "Die verbleibende Dauer des aktuellen Medienelements"
+}

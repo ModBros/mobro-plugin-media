@@ -17,6 +17,7 @@
         <EnableDynamicLoading>true</EnableDynamicLoading>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <LangVersion>11</LangVersion>
+        <InvariantGlobalization>true</InvariantGlobalization>
     </PropertyGroup>
 
     <ItemGroup>
@@ -35,8 +36,7 @@
 
     <ItemGroup>
 <!--        <PackageReference Include="CoreAudio" Version="1.19.0" />-->
-        <PackageReference Include="Dubya.WindowsMediaController" Version="2.4.0" />
-        <PackageReference Include="MoBro.Plugin.SDK" Version="0.1.5" />
+        <PackageReference Include="MoBro.Plugin.SDK" Version="0.1.6" />
     </ItemGroup>
 
 </Project>
