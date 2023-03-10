@@ -12,5 +12,10 @@
   "m_duration_passed_label": "Vergangene Dauer",
   "m_duration_passed_desc": "Die bereits vergangene Dauer des aktuellen Medienelements",
   "m_duration_remaining_label": "Verbleibende Dauer",
-  "m_duration_remaining_desc": "Die verbleibende Dauer des aktuellen Medienelements"
+  "m_duration_remaining_desc": "Die verbleibende Dauer des aktuellen Medienelements",
+
+  "s_media.label": "Medien",
+  "s_media.desc": "Metriken zum aktuell abgespielten Medienelement",
+  "s_audio.label": "Audio",
+  "s_audio.desc": "Audio-Metriken"
 }

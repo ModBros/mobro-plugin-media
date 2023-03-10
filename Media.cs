@@ -13,19 +13,21 @@ public sealed class Media : IMoBroPlugin
   private readonly IMoBroScheduler _scheduler;
   private readonly IList<IHandler> _handlers;
 
-  public Media(IMoBroService service, IMoBroScheduler scheduler)
+  public Media(IMoBroService service, IMoBroScheduler scheduler, IMoBroSettings settings)
   {
     _service = service;
     _scheduler = scheduler;
-    _handlers = new List<IHandler>
-    {
-      new MediaHandler(),
-      new AudioHandler()
-    };
+    _handlers = new List<IHandler>();
+
+    if (settings.GetValue("media", true)) _handlers.Add(new MediaHandler());
+    if (settings.GetValue("audio", true)) _handlers.Add(new AudioHandler());
   }
 
   public void Init()
   {
+    // no need to start scheduler if no handlers are enabled
+    if (_handlers.Count <= 0) return;
+
     foreach (var handler in _handlers)
     {
       _service.Register(handler.GetMetrics());

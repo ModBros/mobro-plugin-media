@@ -4,5 +4,23 @@
   "author": "ModBros",
   "description": null,
   "assembly": "Plugin.Media.dll",
-  "localization": "Resources/Localization"
+  "localization": "Resources/Localization",
+  "settings": [
+    {
+      "type": "checkbox",
+      "name": "media",
+      "label": "s_media.label",
+      "description": "s_media.desc",
+      "defaultValue": true,
+      "required": false
+    },
+    {
+      "type": "checkbox",
+      "name": "audio",
+      "label": "s_audio.label",
+      "description": "s_audio.desc",
+      "defaultValue": true,
+      "required": false
+    }
+  ]
 }
