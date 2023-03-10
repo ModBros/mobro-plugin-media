@@ -11,30 +11,42 @@ public sealed class Media : IMoBroPlugin
 
   private readonly IMoBroService _service;
   private readonly IMoBroScheduler _scheduler;
-
-  private readonly MetricsHandler _metricsHandler;
-  // private readonly ActionsHandler _actionsHandler;
+  private readonly IList<IHandler> _handlers;
 
   public Media(IMoBroService service, IMoBroScheduler scheduler)
   {
     _service = service;
     _scheduler = scheduler;
-
-    _metricsHandler = new MetricsHandler(_service);
-    // _actionsHandler = new ActionsHandler(_service);
+    _handlers = new List<IHandler>
+    {
+      new MediaHandler(),
+      new AudioHandler()
+    };
   }
 
   public void Init()
   {
-    _metricsHandler.Start();
-    // _actionsHandler.Start();
+    foreach (var handler in _handlers)
+    {
+      _service.Register(handler.GetMetrics());
+      // _service.Register(handler.GetActions());
+    }
 
     _scheduler.Interval(OnTimer, UpdateInterval, InitialDelay);
   }
 
   private void OnTimer()
   {
-    _metricsHandler.UpdateValues().GetAwaiter().GetResult();
+    Task.Run(async () =>
+    {
+      foreach (var handler in _handlers)
+      {
+        await foreach (var v in handler.GetMetricValues())
+        {
+          _service.UpdateMetricValue(v);
+        }
+      }
+    }).Wait();
   }
 
   public void Dispose()
