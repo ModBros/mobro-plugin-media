@@ -64,10 +64,10 @@ public class MediaHandler : AbstractHandler
 
   public override IEnumerable<IAction> GetActions()
   {
-    yield return Action(Ids.Action.Play).WithHandler(Play).Build();
-    yield return Action(Ids.Action.Pause).WithHandler(Pause).Build();
-    yield return Action(Ids.Action.Next).WithHandler(Next).Build();
-    yield return Action(Ids.Action.Previous).WithHandler(Previous).Build();
+    yield return Action(Ids.Action.Play).WithAsyncHandler(Play).Build();
+    yield return Action(Ids.Action.Pause).WithAsyncHandler(Pause).Build();
+    yield return Action(Ids.Action.Next).WithAsyncHandler(Next).Build();
+    yield return Action(Ids.Action.Previous).WithAsyncHandler(Previous).Build();
   }
 
   public override async IAsyncEnumerable<MetricValue> GetMetricValues()
@@ -110,6 +110,30 @@ public class MediaHandler : AbstractHandler
     }
   }
 
+  private async Task Play()
+  {
+    var session = await GetSession();
+    await session?.TryPlayAsync();
+  }
+
+  private async Task Pause()
+  {
+    var session = await GetSession();
+    await session?.TryPauseAsync();
+  }
+
+  private async Task Next()
+  {
+    var session = await GetSession();
+    await session?.TrySkipNextAsync();
+  }
+
+  private async Task Previous()
+  {
+    var session = await GetSession();
+    await session?.TrySkipPreviousAsync();
+  }
+
   private async Task<GlobalSystemMediaTransportControlsSession?> GetSession()
   {
     var session = _sm?.GetCurrentSession();
@@ -118,25 +142,5 @@ public class MediaHandler : AbstractHandler
     // so in this case we just recreate it
     _sm = await GlobalSystemMediaTransportControlsSessionManager.RequestAsync();
     return _sm.GetCurrentSession();
-  }
-
-  private static void Play()
-  {
-    // TODO
-  }
-
-  private static void Pause()
-  {
-    // TODO
-  }
-
-  private static void Next()
-  {
-    // TODO
-  }
-
-  private static void Previous()
-  {
-    // TODO
   }
 }
