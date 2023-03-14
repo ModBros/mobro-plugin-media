@@ -14,8 +14,8 @@
   "m_duration_remaining_label": "Remaining duration",
   "m_duration_remaining_desc": "The remaining duration of the current media item",
 
-  "s_media.label": "Media",
-  "s_media.desc": "Metrics on the currently running media item",
-  "s_audio.label": "Audio",
-  "s_audio.desc": "Audio metrics"
+  "s_media_label": "Media",
+  "s_media_desc": "Metrics on the currently running media item",
+  "s_audio_label": "Audio",
+  "s_audio_desc": "Audio metrics"
 }
