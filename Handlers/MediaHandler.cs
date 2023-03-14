@@ -8,12 +8,11 @@ namespace MoBro.Plugin.Media.Handlers;
 
 public class MediaHandler : AbstractHandler
 {
-  private GlobalSystemMediaTransportControlsSessionManager _sm;
+  private GlobalSystemMediaTransportControlsSessionManager? _sm;
   private DateTime _lastPlaying;
 
   public MediaHandler()
   {
-    _sm = GlobalSystemMediaTransportControlsSessionManager.RequestAsync().GetAwaiter().GetResult();
     _lastPlaying = DateTime.UtcNow;
   }
 
@@ -33,33 +32,33 @@ public class MediaHandler : AbstractHandler
       .AsDynamicValue()
       .Build();
 
-    yield return Metric(Ids.Metric.Progress)
-      .OfType(CoreMetricType.Usage)
-      .OfCategory(CoreCategory.Media)
-      .OfNoGroup()
-      .AsDynamicValue()
-      .Build();
-
-    yield return Metric(Ids.Metric.DurationTotal)
-      .OfType(CoreMetricType.Duration)
-      .OfCategory(CoreCategory.Media)
-      .OfNoGroup()
-      .AsDynamicValue()
-      .Build();
-
-    yield return Metric(Ids.Metric.DurationPassed)
-      .OfType(CoreMetricType.Duration)
-      .OfCategory(CoreCategory.Media)
-      .OfNoGroup()
-      .AsDynamicValue()
-      .Build();
-
-    yield return Metric(Ids.Metric.DurationRemaining)
-      .OfType(CoreMetricType.Duration)
-      .OfCategory(CoreCategory.Media)
-      .OfNoGroup()
-      .AsDynamicValue()
-      .Build();
+    // yield return Metric(Ids.Metric.Progress)
+    //   .OfType(CoreMetricType.Usage)
+    //   .OfCategory(CoreCategory.Media)
+    //   .OfNoGroup()
+    //   .AsDynamicValue()
+    //   .Build();
+    //
+    // yield return Metric(Ids.Metric.DurationTotal)
+    //   .OfType(CoreMetricType.Duration)
+    //   .OfCategory(CoreCategory.Media)
+    //   .OfNoGroup()
+    //   .AsDynamicValue()
+    //   .Build();
+    //
+    // yield return Metric(Ids.Metric.DurationPassed)
+    //   .OfType(CoreMetricType.Duration)
+    //   .OfCategory(CoreCategory.Media)
+    //   .OfNoGroup()
+    //   .AsDynamicValue()
+    //   .Build();
+    //
+    // yield return Metric(Ids.Metric.DurationRemaining)
+    //   .OfType(CoreMetricType.Duration)
+    //   .OfCategory(CoreCategory.Media)
+    //   .OfNoGroup()
+    //   .AsDynamicValue()
+    //   .Build();
   }
 
   public override IEnumerable<IAction> GetActions()
@@ -74,40 +73,42 @@ public class MediaHandler : AbstractHandler
   {
     var session = await GetSession();
     var mediaProps = session == null ? null : await session.TryGetMediaPropertiesAsync();
-    var timelineProps = session?.GetTimelineProperties();
-    var playbackInfo = session?.GetPlaybackInfo();
 
     // artist + title
     yield return Value(Ids.Metric.Title, mediaProps?.Title);
     yield return Value(Ids.Metric.Artist, mediaProps?.Artist);
 
-    // progress values
-    if (timelineProps != null && playbackInfo != null)
-    {
-      if (playbackInfo.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
-      {
-        _lastPlaying = DateTime.UtcNow;
-      }
-
-      var passedPlayingTime = _lastPlaying - timelineProps.LastUpdatedTime.UtcDateTime;
-      var totalTime = timelineProps.EndTime;
-      var position = timelineProps.Position + (passedPlayingTime.Ticks > 0 ? passedPlayingTime : TimeSpan.Zero);
-      var remaining = totalTime - position;
-      var progress = position.TotalSeconds / totalTime.TotalSeconds;
-
-      // round all durations to full seconds 
-      yield return Value(Ids.Metric.DurationPassed, position.RoundUpToSecond());
-      yield return Value(Ids.Metric.DurationTotal, totalTime.RoundUpToSecond());
-      yield return Value(Ids.Metric.DurationRemaining, remaining.Ticks > 0 ? remaining.RoundUpToSecond() : TimeSpan.Zero);
-      yield return Value(Ids.Metric.Progress, Math.Min(100, Math.Ceiling(progress * 100)));
-    }
-    else
-    {
-      yield return Value(Ids.Metric.DurationPassed, TimeSpan.Zero);
-      yield return Value(Ids.Metric.DurationTotal, TimeSpan.Zero);
-      yield return Value(Ids.Metric.DurationRemaining, TimeSpan.Zero);
-      yield return Value(Ids.Metric.Progress, 0D);
-    }
+    // var timelineProps = session?.GetTimelineProperties();
+    // var playbackInfo = session?.GetPlaybackInfo();
+    //
+    // // progress values
+    // if (timelineProps != null && playbackInfo != null)
+    // {
+    //   if (playbackInfo.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+    //   {
+    //     _lastPlaying = DateTime.UtcNow;
+    //   }
+    //
+    //   var passedPlayingTime = _lastPlaying - timelineProps.LastUpdatedTime.UtcDateTime;
+    //   var totalTime = timelineProps.EndTime;
+    //   var position = timelineProps.Position + (passedPlayingTime.Ticks > 0 ? passedPlayingTime : TimeSpan.Zero);
+    //   var remaining = totalTime - position;
+    //   var progress = position.TotalSeconds / totalTime.TotalSeconds;
+    //
+    //   // round all durations to full seconds 
+    //   yield return Value(Ids.Metric.DurationPassed, position.RoundUpToSecond());
+    //   yield return Value(Ids.Metric.DurationTotal, totalTime.RoundUpToSecond());
+    //   yield return Value(Ids.Metric.DurationRemaining,
+    //     remaining.Ticks > 0 ? remaining.RoundUpToSecond() : TimeSpan.Zero);
+    //   yield return Value(Ids.Metric.Progress, Math.Min(100, Math.Ceiling(progress * 100)));
+    // }
+    // else
+    // {
+    //   yield return Value(Ids.Metric.DurationPassed, TimeSpan.Zero);
+    //   yield return Value(Ids.Metric.DurationTotal, TimeSpan.Zero);
+    //   yield return Value(Ids.Metric.DurationRemaining, TimeSpan.Zero);
+    //   yield return Value(Ids.Metric.Progress, 0D);
+    // }
   }
 
   private async Task Play()
