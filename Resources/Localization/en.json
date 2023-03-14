@@ -17,5 +17,18 @@
   "s_media_label": "Media",
   "s_media_desc": "Metrics on the currently running media item",
   "s_audio_label": "Audio",
-  "s_audio_desc": "Audio metrics"
+  "s_audio_desc": "Audio metrics",
+
+  "a_mvol_up_label": "Master volume up",
+  "a_mvol_up_desc": "Increments the current master volume",
+  "a_mvol_down_label": "Master volume down",
+  "a_mvol_down_desc": "Decrement the current master volume",
+  "a_play_label": "Play",
+  "a_play_desc": "Start the current media item",
+  "a_pause_label": "Pause",
+  "a_pause_desc": "Pause the current media item",
+  "a_next_label": "Next",
+  "a_next_desc": "Skip to the next media item",
+  "a_previous_label": "Previous",
+  "a_previous_desc": "Skip to the previous media item"
 }

@@ -17,5 +17,18 @@
   "s_media_label": "Medien",
   "s_media_desc": "Metriken zum aktuell abgespielten Medienelement",
   "s_audio_label": "Audio",
-  "s_audio_desc": "Audio-Metriken"
+  "s_audio_desc": "Audio-Metriken",
+
+  "a_mvol_up_label": "Lautstärke erhöhen",
+  "a_mvol_up_desc": "Erhöht die aktuelle Lautstärke des Hauptkanals",
+  "a_mvol_down_label": "Lautstärke verringern",
+  "a_mvol_down_desc": "Verringert die aktuelle Lautstärke des Hauptkanals",
+  "a_play_label": "Wiedergabe",
+  "a_play_desc": "Startet das aktuelle Medienelement",
+  "a_pause_label": "Pause",
+  "a_pause_desc": "Pausiert das aktuelle Medienelement",
+  "a_next_label": "Nächstes",
+  "a_next_desc": "Springt zum nächsten Medienelement",
+  "a_previous_label": "Vorheriges",
+  "a_previous_desc": "Springt zum vorherigen Medienelement"
 }
