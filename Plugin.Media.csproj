@@ -11,7 +11,7 @@
         <Title>MoBro Media Plugin</Title>
         <Copyright>(C) ModBros OG 2023</Copyright>
         <PackageProjectUrl>www.mod-bros.com</PackageProjectUrl>
-        <VersionPrefix>0.0.1</VersionPrefix>
+        <VersionPrefix>0.0.2</VersionPrefix>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <EnableDynamicLoading>true</EnableDynamicLoading>
@@ -35,7 +35,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="MoBro.Plugin.SDK" Version="0.1.6" />
+        <PackageReference Include="MoBro.Plugin.SDK" Version="0.1.7" />
     </ItemGroup>
 
 </Project>

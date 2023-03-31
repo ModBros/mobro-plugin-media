@@ -12,7 +12,7 @@ public class AudioHandler : AbstractHandler
   {
     yield return Metric(Ids.Metric.MVolume)
       .OfType(CoreMetricType.Usage)
-      .OfCategory(CoreCategory.Media)
+      .OfCategory(CoreCategory.Audio)
       .OfNoGroup()
       .AsDynamicValue()
       .Build();
