@@ -7,13 +7,14 @@
         <Company>ModBros OG</Company>
         <Product>MoBro</Product>
         <Description>Media Plugin for MoBro</Description>
-        <IsPackable>true</IsPackable>
+        <IsPackable>false</IsPackable>
         <Title>MoBro Media Plugin</Title>
         <Copyright>(C) ModBros OG 2023</Copyright>
         <PackageProjectUrl>www.mod-bros.com</PackageProjectUrl>
         <VersionPrefix>0.0.2</VersionPrefix>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <OutputType>Exe</OutputType>
         <EnableDynamicLoading>true</EnableDynamicLoading>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <LangVersion>11</LangVersion>
@@ -35,7 +36,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="MoBro.Plugin.SDK" Version="0.1.7" />
+        <PackageReference Include="MoBro.Plugin.SDK" Version="0.1.9" PrivateAssets="all" />
     </ItemGroup>
 
 </Project>
