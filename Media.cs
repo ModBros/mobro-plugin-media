@@ -19,7 +19,11 @@ public sealed class Media : IMoBroPlugin
     _scheduler = scheduler;
     _handlers = new List<IHandler>();
 
-    if (settings.GetValue("media", true)) _handlers.Add(new MediaHandler());
+    // due to a permission change in windows 11 the media metrics only work in windows 10 
+    // the plugin is running under the SYSTEM user which no longer has access to UWP APIs including the
+    // GlobalSystemMediaTransportControlsSessionManager used to read the media metrics
+    // https://learn.microsoft.com/en-us/answers/questions/1263190/can-not-access-globalsystemmediatransportcontrolss?comment=question#newest-question-comment
+    if (!IsWin11() && settings.GetValue("media", true)) _handlers.Add(new MediaHandler());
     if (settings.GetValue("audio", true)) _handlers.Add(new AudioHandler());
   }
 
@@ -49,6 +53,11 @@ public sealed class Media : IMoBroPlugin
         }
       }
     }).Wait();
+  }
+
+  private static bool IsWin11()
+  {
+    return Environment.OSVersion.Version >= new Version(10, 0, 22000, 0);
   }
 
   public void Dispose()

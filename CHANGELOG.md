@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Updated SDK
 - Do not publish .dll of SDK
+- Skip media metrics on Windows 11 (currently not supported)
 
 ## 0.0.1 - 2023-03-15
 
