@@ -1,5 +1,5 @@
 using MoBro.Plugin.Media;
-using MoBro.Plugin.SDK.Testing;
+using MoBro.Plugin.SDK;
 using Serilog.Events;
 
 var plugin = MoBroPluginBuilder
