@@ -1,8 +1,7 @@
 using Windows.Media.Control;
-using MoBro.Plugin.Media.Extensions;
 using MoBro.Plugin.SDK.Enums;
-using MoBro.Plugin.SDK.Models.Actions;
 using MoBro.Plugin.SDK.Models.Metrics;
+using Action = MoBro.Plugin.SDK.Models.Actions.Action;
 
 namespace MoBro.Plugin.Media.Handlers;
 
@@ -16,7 +15,7 @@ public class MediaHandler : AbstractHandler
     _lastPlaying = DateTime.UtcNow;
   }
 
-  public override IEnumerable<IMetric> GetMetrics()
+  public override IEnumerable<Metric> GetMetrics()
   {
     yield return Metric(Ids.Metric.Title)
       .OfType(CoreMetricType.Text)
@@ -61,7 +60,7 @@ public class MediaHandler : AbstractHandler
     //   .Build();
   }
 
-  public override IEnumerable<IAction> GetActions()
+  public override IEnumerable<Action> GetActions()
   {
     yield return Action(Ids.Action.Play).WithAsyncHandler(Play).Build();
     yield return Action(Ids.Action.Pause).WithAsyncHandler(Pause).Build();

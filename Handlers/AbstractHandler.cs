@@ -1,14 +1,14 @@
 using MoBro.Plugin.SDK.Builders;
 using MoBro.Plugin.SDK.Enums;
-using MoBro.Plugin.SDK.Models.Actions;
 using MoBro.Plugin.SDK.Models.Metrics;
+using Action = MoBro.Plugin.SDK.Models.Actions.Action;
 
 namespace MoBro.Plugin.Media.Handlers;
 
 public abstract class AbstractHandler : IHandler
 {
-  public abstract IEnumerable<IMetric> GetMetrics();
-  public abstract IEnumerable<IAction> GetActions();
+  public abstract IEnumerable<Metric> GetMetrics();
+  public abstract IEnumerable<Action> GetActions();
   public abstract IAsyncEnumerable<MetricValue> GetMetricValues();
 
   protected static MetricBuilder.ITypeStage Metric(string id) => MoBroItem

@@ -59,8 +59,4 @@ public sealed class Media : IMoBroPlugin
   {
     return Environment.OSVersion.Version >= new Version(10, 0, 22000, 0);
   }
-
-  public void Dispose()
-  {
-  }
 }

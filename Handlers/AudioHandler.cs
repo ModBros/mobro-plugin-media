@@ -1,14 +1,14 @@
 using MoBro.Plugin.Media.Helper;
 using MoBro.Plugin.SDK.Enums;
-using MoBro.Plugin.SDK.Models.Actions;
 using MoBro.Plugin.SDK.Models.Metrics;
 using MoBro.Plugin.SDK.Services;
+using Action = MoBro.Plugin.SDK.Models.Actions.Action;
 
 namespace MoBro.Plugin.Media.Handlers;
 
 public class AudioHandler : AbstractHandler
 {
-  public override IEnumerable<IMetric> GetMetrics()
+  public override IEnumerable<Metric> GetMetrics()
   {
     yield return Metric(Ids.Metric.MVolume)
       .OfType(CoreMetricType.Usage)
@@ -18,7 +18,7 @@ public class AudioHandler : AbstractHandler
       .Build();
   }
 
-  public override IEnumerable<IAction> GetActions()
+  public override IEnumerable<Action> GetActions()
   {
     yield return Action(Ids.Action.MVolumeUp).WithHandler(VolumeUp).Build();
     yield return Action(Ids.Action.MVolumeDown).WithHandler(VolumeDown).Build();

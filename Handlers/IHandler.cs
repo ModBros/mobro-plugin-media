@@ -1,11 +1,11 @@
-using MoBro.Plugin.SDK.Models.Actions;
 using MoBro.Plugin.SDK.Models.Metrics;
+using Action = MoBro.Plugin.SDK.Models.Actions.Action;
 
 namespace MoBro.Plugin.Media.Handlers;
 
 public interface IHandler
 {
-  IEnumerable<IMetric> GetMetrics();
-  IEnumerable<IAction> GetActions();
+  IEnumerable<Metric> GetMetrics();
+  IEnumerable<Action> GetActions();
   IAsyncEnumerable<MetricValue> GetMetricValues();
 }
