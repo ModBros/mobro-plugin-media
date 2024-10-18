@@ -7,10 +7,10 @@
 
 **Media plugin for MoBro**
 
-This plugin integrates windows media metrics into [MoBro](https://mobro.app).
+This plugin integrates Windows media metrics into [MoBro](https://mobro.app).
 
 **Note**:  
-Due to the architecture of MoBro (parts of it running as windows service) and
+Due to the architecture of MoBro (parts of it running as Windows service) and
 a [permission change in Windows 11](https://learn.microsoft.com/en-us/answers/questions/1263190/can-not-access-globalsystemmediatransportcontrolss?comment=question#newest-question-comment)
 (no access to UWP APIs when running in a non-interactive session, such as a service) this plugin currently only
 functions properly in Windows 10.
