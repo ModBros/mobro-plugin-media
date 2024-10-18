@@ -4,18 +4,20 @@
         <TargetFramework>net7.0-windows10.0.22000.0</TargetFramework>
         <RootNamespace>MoBro.Plugin.Media</RootNamespace>
         <Authors>ModBros</Authors>
-        <Company>ModBros OG</Company>
+        <Company>ModBros KG</Company>
         <Product>MoBro</Product>
         <Description>Media Plugin for MoBro</Description>
         <IsPackable>false</IsPackable>
         <Title>MoBro Media Plugin</Title>
-        <Copyright>(C) ModBros OG 2023</Copyright>
-        <PackageProjectUrl>www.mod-bros.com</PackageProjectUrl>
+        <Copyright>(C) ModBros KG 2024</Copyright>
+        <PackageProjectUrl>https://mobro.app</PackageProjectUrl>
         <VersionPrefix>0.0.3</VersionPrefix>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <OutputType>Exe</OutputType>
         <EnableDynamicLoading>true</EnableDynamicLoading>
+        <UseAppHost>false</UseAppHost>
+        <SelfContained>false</SelfContained>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <LangVersion>11</LangVersion>
         <InvariantGlobalization>true</InvariantGlobalization>
