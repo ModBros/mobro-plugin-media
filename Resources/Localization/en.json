@@ -5,6 +5,8 @@
   "m_artist_desc": "The artist of the current media item",
   "m_mvol_label": "Master Volume",
   "m_mvol_desc": "The current master volume",
+  "m_mmute_label": "Master Mute Status",
+  "m_mmute_desc": "Current mute status of the system's master volume",
 
   "a_mvol_up_label": "Master volume up",
   "a_mvol_up_desc": "Increments the current master volume",

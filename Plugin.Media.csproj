@@ -38,7 +38,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="MoBro.Plugin.SDK" Version="1.0.1" PrivateAssets="all" />
+        <PackageReference Include="MoBro.Plugin.SDK" Version="1.0.2" PrivateAssets="all"/>
     </ItemGroup>
 
 </Project>

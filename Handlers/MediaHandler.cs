@@ -20,6 +20,7 @@ public class MediaHandler : AbstractHandler
       Metric(Ids.Metric.MasterVolume, CoreMetricType.Usage),
       Metric(Ids.Metric.Title, CoreMetricType.Text),
       Metric(Ids.Metric.Artist, CoreMetricType.Text),
+      Metric(Ids.Metric.MasterMute, CoreMetricType.Boolean)
     ];
   }
 
@@ -52,6 +53,7 @@ public class MediaHandler : AbstractHandler
   {
     // master volume
     yield return Value(Ids.Metric.MasterVolume, (int)AudioManager.GetMasterVolume());
+    yield return Value(Ids.Metric.MasterMute, AudioManager.GetMasterVolumeMute());
 
     var session = await GetSession();
     var mediaProps = session == null ? null : await session.TryGetMediaPropertiesAsync();

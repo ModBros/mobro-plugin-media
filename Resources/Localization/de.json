@@ -5,6 +5,8 @@
   "m_artist_desc": "Der Künstler des aktuellen Medienelements",
   "m_mvol_label": "Master-Lautstärke",
   "m_mvol_desc": "Die aktuelle Master-Lautstärke",
+  "m_mmute_label": "Master-Stummschaltungsstatus",
+  "m_mmute_desc": "Aktueller Stummschaltungsstatus der Masterlautstärke des Systems",
 
   "a_mvol_up_label": "Lautstärke erhöhen",
   "a_mvol_up_desc": "Erhöht die aktuelle Lautstärke des Hauptkanals",
