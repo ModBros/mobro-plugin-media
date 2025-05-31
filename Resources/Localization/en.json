@@ -14,11 +14,6 @@
   "m_duration_remaining_label": "Remaining duration",
   "m_duration_remaining_desc": "The remaining duration of the current media item",
 
-  "s_media_label": "Media",
-  "s_media_desc": "Metrics on the currently running media item",
-  "s_audio_label": "Audio",
-  "s_audio_desc": "Audio metrics",
-
   "a_mvol_up_label": "Master volume up",
   "a_mvol_up_desc": "Increments the current master volume",
   "a_mvol_down_label": "Master volume down",

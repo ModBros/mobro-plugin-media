@@ -14,11 +14,6 @@
   "m_duration_remaining_label": "Verbleibende Dauer",
   "m_duration_remaining_desc": "Die verbleibende Dauer des aktuellen Medienelements",
 
-  "s_media_label": "Medien",
-  "s_media_desc": "Metriken zum aktuell abgespielten Medienelement",
-  "s_audio_label": "Audio",
-  "s_audio_desc": "Audio-Metriken",
-
   "a_mvol_up_label": "Lautstärke erhöhen",
   "a_mvol_up_desc": "Erhöht die aktuelle Lautstärke des Hauptkanals",
   "a_mvol_down_label": "Lautstärke verringern",

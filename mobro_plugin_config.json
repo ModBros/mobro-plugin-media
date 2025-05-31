@@ -6,21 +6,5 @@
   "assembly": "Plugin.Media.dll",
   "localization": "Resources/Localization",
   "settings": [
-    {
-      "type": "checkbox",
-      "name": "media",
-      "label": "s_media_label",
-      "description": "s_media_desc",
-      "defaultValue": true,
-      "required": false
-    },
-    {
-      "type": "checkbox",
-      "name": "audio",
-      "label": "s_audio_label",
-      "description": "s_audio_desc",
-      "defaultValue": true,
-      "required": false
-    }
   ]
 }

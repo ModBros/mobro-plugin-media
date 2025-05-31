@@ -2,8 +2,8 @@ using MoBro.Plugin.Media;
 using MoBro.Plugin.SDK;
 using Serilog.Events;
 
-var plugin = MoBroPluginBuilder
-  .Create<Media>()
+using var plugin = MoBroPluginBuilder
+  .Create<Plugin>()
   .WithLogLevel(LogEventLevel.Debug)
   .WithSetting("media", "true")
   .WithSetting("audio", "true")
