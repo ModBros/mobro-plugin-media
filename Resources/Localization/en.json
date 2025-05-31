@@ -17,5 +17,8 @@
   "a_next_label": "Next",
   "a_next_desc": "Skip to the next media item",
   "a_previous_label": "Previous",
-  "a_previous_desc": "Skip to the previous media item"
+  "a_previous_desc": "Skip to the previous media item",
+
+  "s_volume_step_amount_label": "Volume step",
+  "s_volume_step_amount_desc": "The amount to adjust the volume by per step."
 }

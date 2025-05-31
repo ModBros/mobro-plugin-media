@@ -27,7 +27,7 @@ public sealed class Plugin : IMoBroPlugin
     foreach (var handler in _handlers)
     {
       _service.Register(handler.GetMetrics());
-      // _service.Register(handler.GetActions());
+      _service.Register(handler.GetActions());
     }
 
     _scheduler.Interval(OnTimer, UpdateInterval, UpdateInterval);

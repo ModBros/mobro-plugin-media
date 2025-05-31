@@ -17,5 +17,8 @@
   "a_next_label": "Nächstes",
   "a_next_desc": "Springt zum nächsten Medienelement",
   "a_previous_label": "Vorheriges",
-  "a_previous_desc": "Springt zum vorherigen Medienelement"
+  "a_previous_desc": "Springt zum vorherigen Medienelement",
+
+  "s_volume_step_amount_label": "Lautstärke-Schrittweite",
+  "s_volume_step_amount_desc": "Um wieviel die Lautstärke pro Schritt angepasst wird."
 }

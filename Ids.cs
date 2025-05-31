@@ -18,4 +18,9 @@ internal static class Ids
     internal const string Next = "a_next";
     internal const string Previous = "a_previous";
   }
+
+  internal static class ActionSettings
+  {
+    internal const string VolumeStepAmount = "s_volume_step_amount";
+  }
 }

@@ -25,14 +25,23 @@ public class MediaHandler : AbstractHandler
 
   public override IEnumerable<Action> GetActions()
   {
+    Func<SettingsBuilder.INameStage, SettingsFieldBase> volumeStepAmountSetting =
+      b => b.WithName(Ids.ActionSettings.VolumeStepAmount)
+        .WithLabel(Ids.ActionSettings.VolumeStepAmount + "_label", Ids.ActionSettings.VolumeStepAmount + "_desc")
+        .OfTypeNumber()
+        .WithDefault(1)
+        .WithMin(1)
+        .WithMax(100)
+        .Build();
+
     return
     [
       Action(Ids.Action.Play, Play),
       Action(Ids.Action.Pause, Pause),
       Action(Ids.Action.Next, Next),
       Action(Ids.Action.Previous, Previous),
-      Action(Ids.Action.MVolumeUp, VolumeUp),
-      Action(Ids.Action.MVolumeDown, VolumeDown)
+      Action(Ids.Action.MVolumeUp, VolumeUp, volumeStepAmountSetting),
+      Action(Ids.Action.MVolumeDown, VolumeDown, volumeStepAmountSetting)
     ];
   }
 
