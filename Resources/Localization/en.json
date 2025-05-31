@@ -3,7 +3,7 @@
   "m_title_desc": "The title of the current media item",
   "m_artist_label": "Artist",
   "m_artist_desc": "The artist of the current media item",
-  "m_mvol_label": "Volume",
+  "m_mvol_label": "Master Volume",
   "m_mvol_desc": "The current master volume",
 
   "a_mvol_up_label": "Master volume up",
@@ -18,6 +18,12 @@
   "a_next_desc": "Skip to the next media item",
   "a_previous_label": "Previous",
   "a_previous_desc": "Skip to the previous media item",
+  "a_mmute_on_label": "Mute Master Volume",
+  "a_mmute_on_desc": "Mute the system's master volume",
+  "a_mmute_off_label": "Unmute Master Volume",
+  "a_mmute_off_desc": "Unmute the system's master volume",
+  "a_mmute_toggle_label": "Toggle Master Volume Mute",
+  "a_mmute_toggle_desc": "Toggle mute state for the system's master volume",
 
   "s_volume_step_amount_label": "Volume step",
   "s_volume_step_amount_desc": "The amount to adjust the volume by per step."

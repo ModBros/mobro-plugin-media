@@ -3,7 +3,7 @@
   "m_title_desc": "Der Titel des aktuellen Medienelements",
   "m_artist_label": "Künstler",
   "m_artist_desc": "Der Künstler des aktuellen Medienelements",
-  "m_mvol_label": "Lautstärke",
+  "m_mvol_label": "Master-Lautstärke",
   "m_mvol_desc": "Die aktuelle Master-Lautstärke",
 
   "a_mvol_up_label": "Lautstärke erhöhen",
@@ -18,6 +18,12 @@
   "a_next_desc": "Springt zum nächsten Medienelement",
   "a_previous_label": "Vorheriges",
   "a_previous_desc": "Springt zum vorherigen Medienelement",
+  "a_mmute_on_label": "Master stummschalten",
+  "a_mmute_on_desc": "Die Masterlautstärke stummschalten",
+  "a_mmute_off_label": "Master-Stummschaltung aufheben",
+  "a_mmute_off_desc": "Die Stummschaltung der Masterlautstärke aufheben",
+  "a_mmute_toggle_label": "Master-Stummschaltung umschalten",
+  "a_mmute_toggle_desc": "Stummschaltung der Masterlautstärke umschalten",
 
   "s_volume_step_amount_label": "Lautstärke-Schrittweite",
   "s_volume_step_amount_desc": "Um wieviel die Lautstärke pro Schritt angepasst wird."

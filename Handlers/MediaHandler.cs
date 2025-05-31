@@ -17,7 +17,7 @@ public class MediaHandler : AbstractHandler
   {
     return
     [
-      Metric(Ids.Metric.MVolume, CoreMetricType.Usage),
+      Metric(Ids.Metric.MasterVolume, CoreMetricType.Usage),
       Metric(Ids.Metric.Title, CoreMetricType.Text),
       Metric(Ids.Metric.Artist, CoreMetricType.Text),
     ];
@@ -40,15 +40,18 @@ public class MediaHandler : AbstractHandler
       Action(Ids.Action.Pause, Pause),
       Action(Ids.Action.Next, Next),
       Action(Ids.Action.Previous, Previous),
-      Action(Ids.Action.MVolumeUp, VolumeUp, volumeStepAmountSetting),
-      Action(Ids.Action.MVolumeDown, VolumeDown, volumeStepAmountSetting)
+      Action(Ids.Action.MasterVolumeUp, VolumeUp, volumeStepAmountSetting),
+      Action(Ids.Action.MaterVolumeDown, VolumeDown, volumeStepAmountSetting),
+      Action(Ids.Action.MasterMuteOn, MuteOn),
+      Action(Ids.Action.MasterMuteOff, MuteOff),
+      Action(Ids.Action.MasterMuteToggle, MuteToggle),
     ];
   }
 
   public override async IAsyncEnumerable<MetricValue> GetMetricValues()
   {
     // master volume
-    yield return Value(Ids.Metric.MVolume, (int)AudioManager.GetMasterVolume());
+    yield return Value(Ids.Metric.MasterVolume, (int)AudioManager.GetMasterVolume());
 
     var session = await GetSession();
     var mediaProps = session == null ? null : await session.TryGetMediaPropertiesAsync();
@@ -93,6 +96,24 @@ public class MediaHandler : AbstractHandler
   {
     var stepAmount = Math.Abs(settings.GetValue(Ids.ActionSettings.VolumeStepAmount, 1));
     AudioManager.StepMasterVolume(-stepAmount);
+    return Task.CompletedTask;
+  }
+
+  private static Task MuteToggle(IMoBroSettings arg)
+  {
+    AudioManager.ToggleMasterVolumeMute();
+    return Task.CompletedTask;
+  }
+
+  private static Task MuteOff(IMoBroSettings arg)
+  {
+    AudioManager.SetMasterVolumeMute(false);
+    return Task.CompletedTask;
+  }
+
+  private static Task MuteOn(IMoBroSettings arg)
+  {
+    AudioManager.SetMasterVolumeMute(true);
     return Task.CompletedTask;
   }
 
