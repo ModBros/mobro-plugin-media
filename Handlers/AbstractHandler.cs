@@ -30,6 +30,7 @@ public abstract class AbstractHandler : IHandler
   protected static Action Action(
     string id,
     Func<IMoBroSettings, Task> handler,
+    string? metricId = null,
     params Func<SettingsBuilder.INameStage, SettingsFieldBase>[] settings
   )
   {
@@ -39,6 +40,7 @@ public abstract class AbstractHandler : IHandler
       .WithLabel(id + "_label", id + "_desc")
       .OfCategory(CoreCategory.Media)
       .OfNoGroup()
+      .WithMetric(metricId)
       .WithAsyncHandler(handler);
 
     foreach (var setting in settings)

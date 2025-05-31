@@ -41,11 +41,11 @@ public class MediaHandler : AbstractHandler
       Action(Ids.Action.Pause, Pause),
       Action(Ids.Action.Next, Next),
       Action(Ids.Action.Previous, Previous),
-      Action(Ids.Action.MasterVolumeUp, VolumeUp, volumeStepAmountSetting),
-      Action(Ids.Action.MaterVolumeDown, VolumeDown, volumeStepAmountSetting),
-      Action(Ids.Action.MasterMuteOn, MuteOn),
-      Action(Ids.Action.MasterMuteOff, MuteOff),
-      Action(Ids.Action.MasterMuteToggle, MuteToggle),
+      Action(Ids.Action.MasterVolumeUp, VolumeUp, Ids.Metric.MasterVolume, volumeStepAmountSetting),
+      Action(Ids.Action.MaterVolumeDown, VolumeDown, Ids.Metric.MasterVolume, volumeStepAmountSetting),
+      Action(Ids.Action.MasterMuteOn, MuteOn, Ids.Metric.MasterMute),
+      Action(Ids.Action.MasterMuteOff, MuteOff, Ids.Metric.MasterMute),
+      Action(Ids.Action.MasterMuteToggle, MuteToggle, Ids.Metric.MasterMute),
     ];
   }
 
