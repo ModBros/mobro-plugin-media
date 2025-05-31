@@ -9,18 +9,30 @@
 
 This plugin integrates Windows media metrics into [MoBro](https://mobro.app).
 
-**Note**:  
-Due to the architecture of MoBro (parts of it running as Windows service) and
-a [permission change in Windows 11](https://learn.microsoft.com/en-us/answers/questions/1263190/can-not-access-globalsystemmediatransportcontrolss?comment=question#newest-question-comment)
-(no access to UWP APIs when running in a non-interactive session, such as a service) this plugin currently only
-functions properly in Windows 10.
+## Getting started
+
+Simply install the plugin in MoBro — no additional setup required.
+
+## Metrics
+
+This plugin provides the following metrics:
+
+- Current media item's title
+- Current media item's artist
+- Master volume level
+- Current mute status of the master volume
+
+## Actions
+
+This plugin provides the following actions:
+
+- Play/pause media item
+- Skip to the next track
+- Skip to the previous track
+- Change the master volume level
+- Mute/unmute master volume
 
 ## SDK
 
 This plugin is built using the [MoBro Plugin SDK](https://github.com/ModBros/mobro-plugin-sdk).  
 Developer documentation is available at [developer.mobro.app](https://developer.mobro.app).
-
----
-
-Feel free to visit us on our [Discord](https://discord.com/invite/DSNX4ds) or [Forum](https://www.mod-bros.com/en/forum)
-for any questions or in case you run into any issues.
