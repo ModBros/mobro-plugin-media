@@ -2,9 +2,10 @@
   "name": "modbros_media",
   "displayName": "Media",
   "author": "ModBros",
-  "description": null,
+  "description": "Provides metrics on audio and the currently running media item",
   "assembly": "Plugin.Media.dll",
   "localization": "Resources/Localization",
+  "executionMode": "UserSession",
   "settings": [
   ]
 }
