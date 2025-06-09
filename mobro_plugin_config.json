@@ -6,6 +6,16 @@
   "assembly": "Plugin.Media.dll",
   "localization": "Resources/Localization",
   "executionMode": "UserSession",
+  "repository": "https://github.com/ModBros/mobro-plugin-media",
+  "homepage": null,
+  "tags": [
+    "audio",
+    "media",
+    "song",
+    "music",
+    "volume",
+    "sound"
+  ],
   "settings": [
   ]
 }
