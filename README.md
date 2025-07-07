@@ -17,10 +17,13 @@ Simply install the plugin in MoBro — no additional setup required.
 
 This plugin provides the following metrics:
 
-- Current media item's title
-- Current media item's artist
-- Master volume level
-- Current mute status of the master volume
+- Current media item:
+    - Title
+    - Artist (if available)
+    - Playback status
+- Master volume
+    - Current volume level
+    - Current mute status
 
 ## Actions
 

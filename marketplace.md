@@ -13,9 +13,10 @@ No additional setup is required.
 
 This plugin provides the following metrics:
 
-- Current media item:
+- Current media item
     - Title
     - Artist (if available)
+    - Playback status
 - Master volume
     - Current volume level
     - Current mute status

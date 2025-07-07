@@ -7,6 +7,8 @@
   "m_mvol_desc": "The current master volume",
   "m_mmute_label": "Master Mute Status",
   "m_mmute_desc": "Current mute status of the system's master volume",
+  "m_playing_label": "Playing",
+  "m_playing_desc": "Whether media is currently playing",
 
   "a_mvol_up_label": "Master volume up",
   "a_mvol_up_desc": "Increments the current master volume",

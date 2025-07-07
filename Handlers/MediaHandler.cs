@@ -20,7 +20,8 @@ public class MediaHandler : AbstractHandler
       Metric(Ids.Metric.MasterVolume, CoreMetricType.Usage),
       Metric(Ids.Metric.Title, CoreMetricType.Text),
       Metric(Ids.Metric.Artist, CoreMetricType.Text),
-      Metric(Ids.Metric.MasterMute, CoreMetricType.Boolean)
+      Metric(Ids.Metric.MasterMute, CoreMetricType.Boolean),
+      Metric(Ids.Metric.Playing, CoreMetricType.Boolean)
     ];
   }
 
@@ -61,6 +62,11 @@ public class MediaHandler : AbstractHandler
     // artist + title
     yield return Value(Ids.Metric.Title, mediaProps?.Title);
     yield return Value(Ids.Metric.Artist, mediaProps?.Artist);
+    
+    // playing status
+    var playbackInfo = session?.GetPlaybackInfo();
+    var isPlaying = playbackInfo?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing;
+    yield return Value(Ids.Metric.Playing, isPlaying);
   }
 
   private async Task Play(IMoBroSettings _)

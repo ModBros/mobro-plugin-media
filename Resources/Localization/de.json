@@ -7,6 +7,8 @@
   "m_mvol_desc": "Die aktuelle Master-Lautstärke",
   "m_mmute_label": "Master-Stummschaltungsstatus",
   "m_mmute_desc": "Aktueller Stummschaltungsstatus der Masterlautstärke des Systems",
+  "m_playing_label": "Wird abgespielt",
+  "m_playing_desc": "Ob gerade ein Medieninhalt abgespielt wird",
 
   "a_mvol_up_label": "Lautstärke erhöhen",
   "a_mvol_up_desc": "Erhöht die aktuelle Lautstärke des Hauptkanals",

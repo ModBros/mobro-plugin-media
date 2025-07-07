@@ -6,6 +6,7 @@ internal static class Ids
   {
     internal const string Title = "m_title";
     internal const string Artist = "m_artist";
+    internal const string Playing = "m_playing";
     internal const string MasterVolume = "m_mvol";
     internal const string MasterMute = "m_mmute";
   }
