@@ -9,7 +9,7 @@ using Action = MoBro.Plugin.SDK.Models.Actions.Action;
 
 namespace MoBro.Plugin.Media.Handlers;
 
-public class MediaHandler : AbstractHandler
+public class MediaHandler(IMoBroService service) : AbstractHandler
 {
   private GlobalSystemMediaTransportControlsSessionManager? _sm;
 
@@ -62,7 +62,7 @@ public class MediaHandler : AbstractHandler
     // artist + title
     yield return Value(Ids.Metric.Title, mediaProps?.Title);
     yield return Value(Ids.Metric.Artist, mediaProps?.Artist);
-    
+
     // playing status
     var playbackInfo = session?.GetPlaybackInfo();
     var isPlaying = playbackInfo?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing;
@@ -72,13 +72,21 @@ public class MediaHandler : AbstractHandler
   private async Task Play(IMoBroSettings _)
   {
     var session = await GetSession();
-    await session?.TryPlayAsync();
+    var success = await session?.TryPlayAsync();
+    if (success)
+    {
+      service.UpdateMetricValue(Ids.Metric.Playing, true);
+    }
   }
 
   private async Task Pause(IMoBroSettings _)
   {
     var session = await GetSession();
-    await session?.TryPauseAsync();
+    var success = await session?.TryPauseAsync();
+    if (success)
+    {
+      service.UpdateMetricValue(Ids.Metric.Playing, false);
+    }
   }
 
   private async Task Next(IMoBroSettings _)
@@ -93,35 +101,40 @@ public class MediaHandler : AbstractHandler
     await session?.TrySkipPreviousAsync();
   }
 
-  private static Task VolumeUp(IMoBroSettings settings)
+  private Task VolumeUp(IMoBroSettings settings)
   {
     var stepAmount = Math.Abs(settings.GetValue(Ids.ActionSettings.VolumeStepAmount, 1));
-    AudioManager.StepMasterVolume(stepAmount);
+    var volume = AudioManager.StepMasterVolume(stepAmount);
+    service.UpdateMetricValue(Ids.Metric.MasterVolume, (int)volume);
     return Task.CompletedTask;
   }
 
-  private static Task VolumeDown(IMoBroSettings settings)
+  private Task VolumeDown(IMoBroSettings settings)
   {
     var stepAmount = Math.Abs(settings.GetValue(Ids.ActionSettings.VolumeStepAmount, 1));
-    AudioManager.StepMasterVolume(-stepAmount);
+    var volume = AudioManager.StepMasterVolume(-stepAmount);
+    service.UpdateMetricValue(Ids.Metric.MasterVolume, (int)volume);
     return Task.CompletedTask;
   }
 
-  private static Task MuteToggle(IMoBroSettings arg)
+  private Task MuteToggle(IMoBroSettings arg)
   {
-    AudioManager.ToggleMasterVolumeMute();
+    var mute = AudioManager.ToggleMasterVolumeMute();
+    service.UpdateMetricValue(Ids.Metric.MasterMute, mute);
     return Task.CompletedTask;
   }
 
-  private static Task MuteOff(IMoBroSettings arg)
+  private Task MuteOff(IMoBroSettings arg)
   {
     AudioManager.SetMasterVolumeMute(false);
+    service.UpdateMetricValue(Ids.Metric.MasterMute, false);
     return Task.CompletedTask;
   }
 
-  private static Task MuteOn(IMoBroSettings arg)
+  private Task MuteOn(IMoBroSettings arg)
   {
     AudioManager.SetMasterVolumeMute(true);
+    service.UpdateMetricValue(Ids.Metric.MasterMute, true);
     return Task.CompletedTask;
   }
 

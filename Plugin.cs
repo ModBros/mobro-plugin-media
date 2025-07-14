@@ -16,7 +16,7 @@ public sealed class Plugin : IMoBroPlugin
   {
     _service = service;
     _scheduler = scheduler;
-    _handlers = [new MediaHandler()];
+    _handlers = [new MediaHandler(_service)];
   }
 
   public void Init()

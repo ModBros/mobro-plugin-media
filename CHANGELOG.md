@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - New boolean metric indicating whether media is currently playing
+- Directly update the affected metric value after action invocation
 
 ## 1.0.0 - 2025-06-09
 
