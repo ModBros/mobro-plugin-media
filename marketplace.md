@@ -1,34 +1,34 @@
-Integrates various media metrics from Windows into MoBro.
+Bring Windows media information into MoBro — see what’s playing and monitor system volume at a glance.
 
 ---
 
 # Getting started
 
-Simply install the plugin.  
-No additional setup is required.
+Install the plugin from the marketplace.  
+No configuration required.
 
 ---
 
 # Metrics
 
-This plugin provides the following metrics:
+This plugin exposes the following metrics:
 
-- Current media item
-    - Title
-    - Artist (if available)
-    - Playback status
-- Master volume
-    - Current volume level
-    - Current mute status
+- Now playing
+  - Title
+  - Artist (when available)
+  - Playback state
+- System master volume
+  - Current level
+  - Mute state
 
 ---
 
 # Actions
 
-This plugin provides the following actions:
+Control playback and volume directly from MoBro:
 
-- Play/pause media item
-- Skip to the next track
-- Skip to the previous track
-- Change the master volume level
-- Mute/unmute master volume
+- Play/Pause
+- Next track
+- Previous track
+- Adjust master volume level
+- Toggle mute for master volume
