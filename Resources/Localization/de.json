@@ -30,5 +30,7 @@
   "a_mmute_toggle_desc": "Stummschaltung der Masterlautstärke umschalten",
 
   "s_volume_step_amount_label": "Lautstärke-Schrittweite",
-  "s_volume_step_amount_desc": "Um wieviel die Lautstärke pro Schritt angepasst wird."
+  "s_volume_step_amount_desc": "Um wieviel die Lautstärke pro Schritt angepasst wird.",
+  "s_title_placeholder_label": "Titel-Platzhalter",
+  "s_title_placeholder_desc": "Der Text, der angezeigt wird, wenn derzeit kein Medienelement abgespielt wird oder verfügbar ist."
 }

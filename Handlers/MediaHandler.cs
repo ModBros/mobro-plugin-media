@@ -9,8 +9,10 @@ using Action = MoBro.Plugin.SDK.Models.Actions.Action;
 
 namespace MoBro.Plugin.Media.Handlers;
 
-public class MediaHandler(IMoBroService service) : AbstractHandler
+public class MediaHandler(IMoBroService service, IMoBroSettings settings) : AbstractHandler
 {
+  private readonly string _titlePlaceHolder = settings.GetValue<string>(Ids.Setting.TitlePlaceholder, "");
+
   private GlobalSystemMediaTransportControlsSessionManager? _sm;
 
   public override IEnumerable<Metric> GetMetrics()
@@ -60,8 +62,8 @@ public class MediaHandler(IMoBroService service) : AbstractHandler
     var mediaProps = session == null ? null : await session.TryGetMediaPropertiesAsync();
 
     // artist + title
-    yield return Value(Ids.Metric.Title, mediaProps?.Title);
-    yield return Value(Ids.Metric.Artist, mediaProps?.Artist);
+    yield return Value(Ids.Metric.Title, mediaProps?.Title ?? _titlePlaceHolder);
+    yield return Value(Ids.Metric.Artist, mediaProps?.Artist ?? "");
 
     // playing status
     var playbackInfo = session?.GetPlaybackInfo();

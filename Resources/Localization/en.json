@@ -30,5 +30,7 @@
   "a_mmute_toggle_desc": "Toggle mute state for the system's master volume",
 
   "s_volume_step_amount_label": "Volume step",
-  "s_volume_step_amount_desc": "The amount to adjust the volume by per step."
+  "s_volume_step_amount_desc": "The amount to adjust the volume by per step.",
+  "s_title_placeholder_label": "Title placeholder",
+  "s_title_placeholder_desc": "The text to show when no media is currently playing or available."
 }

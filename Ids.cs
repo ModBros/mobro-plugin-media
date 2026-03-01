@@ -2,6 +2,11 @@ namespace MoBro.Plugin.Media;
 
 internal static class Ids
 {
+  internal static class Setting
+  {
+    internal const string TitlePlaceholder = "s_title_placeholder";
+  }
+
   internal static class Metric
   {
     internal const string Title = "m_title";

@@ -17,5 +17,13 @@
     "sound"
   ],
   "settings": [
+    {
+      "type": "string",
+      "name": "s_title_placeholder",
+      "label": "s_title_placeholder_label",
+      "description": "s_title_placeholder_desc",
+      "defaultValue": "",
+      "required": false
+    }
   ]
 }

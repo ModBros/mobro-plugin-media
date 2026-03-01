@@ -12,11 +12,11 @@ public sealed class Plugin : IMoBroPlugin
   private readonly IMoBroScheduler _scheduler;
   private readonly IList<IHandler> _handlers;
 
-  public Plugin(IMoBroService service, IMoBroScheduler scheduler)
+  public Plugin(IMoBroService service, IMoBroScheduler scheduler, IMoBroSettings settings)
   {
     _service = service;
     _scheduler = scheduler;
-    _handlers = [new MediaHandler(_service)];
+    _handlers = [new MediaHandler(_service, settings)];
   }
 
   public void Init()
