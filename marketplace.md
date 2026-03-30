@@ -1,34 +1,33 @@
+# Windows Media & Volume Control
+
 Bring Windows media information into MoBro — see what’s playing and monitor system volume at a glance.
 
 ---
 
-# Getting started
+## Available Metrics
 
-Install the plugin from the marketplace.  
-No configuration required.
+- **Now Playing**: View the current **Title**, **Artist**, and **Playback State** (Playing/Paused).
+- **System Audio**: Keep track of your **Master Volume** level and **Mute** status at a glance.
 
----
+## Available Actions
 
-# Metrics
-
-This plugin exposes the following metrics:
-
-- Now playing
-  - Title
-  - Artist (when available)
-  - Playback state
-- System master volume
-  - Current level
-  - Mute state
+- **Playback Control**: Play/Pause, Skip to Next track, or return to the Previous track.
+- **Volume Management**: Dynamically adjust the master volume level or toggle Mute instantly.
 
 ---
 
-# Actions
+## Setup
 
-Control playback and volume directly from MoBro:
+1. **Install**: From the MoBro Marketplace.
+2. **Launch**: Open your MoBro dashboard.
+3. **Control**: Add the Media widgets to your layout and start controlling your music!
 
-- Play/Pause
-- Next track
-- Previous track
-- Adjust master volume level
-- Toggle mute for master volume
+*No additional configuration or third-party drivers are required.*
+
+---
+
+## Compatibility
+
+This plugin integrates with the native **Windows Global Media Session** API.  
+It supports any media player that correctly reports to Windows (e.g., Spotify, Chrome, YouTube Music Desktop, VLC, and
+Windows Media Player).
