@@ -13,15 +13,16 @@ public abstract class AbstractHandler : IHandler
   public abstract IEnumerable<Action> GetActions();
   public abstract IAsyncEnumerable<MetricValue> GetMetricValues();
 
-  protected static Metric Metric(string id, CoreMetricType metricType)
+  protected static Metric Metric(string id, CoreMetricType metricType, string? groupId = null)
   {
-    return MoBroItem
+    var withCategory = MoBroItem
       .CreateMetric()
       .WithId(id)
       .WithLabel(id + "_label", id + "_desc")
       .OfType(metricType)
-      .OfCategory(CoreCategory.Media)
-      .OfNoGroup()
+      .OfCategory(CoreCategory.Media);
+
+    return (groupId != null ? withCategory.OfGroup(groupId) : withCategory.OfNoGroup())
       .AsDynamicValue()
       .Build();
   }
@@ -31,15 +32,17 @@ public abstract class AbstractHandler : IHandler
     string id,
     Func<IMoBroSettings, Task> handler,
     string? metricId = null,
+    string? groupId = null,
     params Func<SettingsBuilder.INameStage, SettingsFieldBase>[] settings
   )
   {
-    var builder = MoBroItem
+    var withCategory = MoBroItem
       .CreateAction()
       .WithId(id)
       .WithLabel(id + "_label", id + "_desc")
-      .OfCategory(CoreCategory.Media)
-      .OfNoGroup()
+      .OfCategory(CoreCategory.Media);
+
+    var builder = (groupId != null ? withCategory.OfGroup(groupId) : withCategory.OfNoGroup())
       .WithMetric(metricId)
       .WithAsyncHandler(handler);
 

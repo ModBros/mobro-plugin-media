@@ -1,4 +1,9 @@
 {
+  "g_now_playing_label": "Jetzt läuft",
+  "g_now_playing_desc": "Aktuelle Medienwiedergabe-Informationen",
+  "g_volume_label": "Lautstärke",
+  "g_volume_desc": "Systemlautstärke",
+
   "m_title_label": "Titel",
   "m_title_desc": "Der Titel des aktuellen Medienelements",
   "m_artist_label": "Künstler",

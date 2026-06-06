@@ -1,4 +1,9 @@
 {
+  "g_now_playing_label": "Now Playing",
+  "g_now_playing_desc": "Current media playback information",
+  "g_volume_label": "Volume",
+  "g_volume_desc": "System master volume",
+
   "m_title_label": "Title",
   "m_title_desc": "The title of the current media item",
   "m_artist_label": "Artist",

@@ -19,11 +19,11 @@ public class MediaHandler(IMoBroService service, IMoBroSettings settings) : Abst
   {
     return
     [
-      Metric(Ids.Metric.MasterVolume, CoreMetricType.Usage),
-      Metric(Ids.Metric.Title, CoreMetricType.Text),
-      Metric(Ids.Metric.Artist, CoreMetricType.Text),
-      Metric(Ids.Metric.MasterMute, CoreMetricType.Boolean),
-      Metric(Ids.Metric.Playing, CoreMetricType.Boolean)
+      Metric(Ids.Metric.Title, CoreMetricType.Text, Ids.Group.NowPlaying),
+      Metric(Ids.Metric.Artist, CoreMetricType.Text, Ids.Group.NowPlaying),
+      Metric(Ids.Metric.Playing, CoreMetricType.Boolean, Ids.Group.NowPlaying),
+      Metric(Ids.Metric.MasterVolume, CoreMetricType.Usage, Ids.Group.Volume),
+      Metric(Ids.Metric.MasterMute, CoreMetricType.Boolean, Ids.Group.Volume)
     ];
   }
 
@@ -40,15 +40,16 @@ public class MediaHandler(IMoBroService service, IMoBroSettings settings) : Abst
 
     return
     [
-      Action(Ids.Action.Play, Play),
-      Action(Ids.Action.Pause, Pause),
-      Action(Ids.Action.Next, Next),
-      Action(Ids.Action.Previous, Previous),
-      Action(Ids.Action.MasterVolumeUp, VolumeUp, Ids.Metric.MasterVolume, volumeStepAmountSetting),
-      Action(Ids.Action.MaterVolumeDown, VolumeDown, Ids.Metric.MasterVolume, volumeStepAmountSetting),
-      Action(Ids.Action.MasterMuteOn, MuteOn, Ids.Metric.MasterMute),
-      Action(Ids.Action.MasterMuteOff, MuteOff, Ids.Metric.MasterMute),
-      Action(Ids.Action.MasterMuteToggle, MuteToggle, Ids.Metric.MasterMute),
+      Action(Ids.Action.Play, Play, groupId: Ids.Group.NowPlaying),
+      Action(Ids.Action.Pause, Pause, groupId: Ids.Group.NowPlaying),
+      Action(Ids.Action.Next, Next, groupId: Ids.Group.NowPlaying),
+      Action(Ids.Action.Previous, Previous, groupId: Ids.Group.NowPlaying),
+      Action(Ids.Action.MasterVolumeUp, VolumeUp, Ids.Metric.MasterVolume, Ids.Group.Volume, volumeStepAmountSetting),
+      Action(Ids.Action.MaterVolumeDown, VolumeDown, Ids.Metric.MasterVolume, Ids.Group.Volume,
+        volumeStepAmountSetting),
+      Action(Ids.Action.MasterMuteOn, MuteOn, Ids.Metric.MasterMute, Ids.Group.Volume),
+      Action(Ids.Action.MasterMuteOff, MuteOff, Ids.Metric.MasterMute, Ids.Group.Volume),
+      Action(Ids.Action.MasterMuteToggle, MuteToggle, Ids.Metric.MasterMute, Ids.Group.Volume),
     ];
   }
 

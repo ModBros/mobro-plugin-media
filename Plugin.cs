@@ -1,5 +1,6 @@
 ﻿using MoBro.Plugin.Media.Handlers;
 using MoBro.Plugin.SDK;
+using MoBro.Plugin.SDK.Builders;
 using MoBro.Plugin.SDK.Services;
 
 namespace MoBro.Plugin.Media;
@@ -23,6 +24,20 @@ public sealed class Plugin : IMoBroPlugin
   {
     // no need to start scheduler if no handlers are enabled
     if (_handlers.Count <= 0) return;
+
+    _service.Register(
+    [
+      MoBroItem
+        .CreateGroup()
+        .WithId(Ids.Group.NowPlaying)
+        .WithLabel(Ids.Group.NowPlaying + "_label", Ids.Group.NowPlaying + "_desc")
+        .Build(),
+      MoBroItem
+        .CreateGroup()
+        .WithId(Ids.Group.Volume)
+        .WithLabel(Ids.Group.Volume + "_label", Ids.Group.Volume + "_desc")
+        .Build(),
+    ]);
 
     foreach (var handler in _handlers)
     {

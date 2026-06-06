@@ -2,6 +2,12 @@ namespace MoBro.Plugin.Media;
 
 internal static class Ids
 {
+  internal static class Group
+  {
+    internal const string NowPlaying = "g_now_playing";
+    internal const string Volume = "g_volume";
+  }
+
   internal static class Setting
   {
     internal const string TitlePlaceholder = "s_title_placeholder";
