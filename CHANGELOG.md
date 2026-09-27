@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Updated MoBro SDK to v1.2.0
 - Title, artist and playing status update immediately when the media changes instead of up to 2 seconds later
 
 ### Fixed
