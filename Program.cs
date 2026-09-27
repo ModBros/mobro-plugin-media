@@ -5,8 +5,7 @@ using Serilog.Events;
 using var plugin = MoBroPluginBuilder
   .Create<Plugin>()
   .WithLogLevel(LogEventLevel.Debug)
-  .WithSetting("media", "true")
-  .WithSetting("audio", "true")
+  .WithSetting("s_title_placeholder", "Nothing playing")
   .Build();
 
 Console.ReadLine();
