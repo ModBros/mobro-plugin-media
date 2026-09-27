@@ -60,6 +60,6 @@ public sealed class Plugin : IMoBroPlugin
           _service.UpdateMetricValue(v);
         }
       }
-    }).Wait();
+    }).GetAwaiter().GetResult();
   }
 }
