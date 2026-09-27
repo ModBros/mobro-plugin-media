@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Windows.Media.Control;
 using MoBro.Plugin.Media.Helper;
 using MoBro.Plugin.SDK.Builders;
@@ -9,7 +10,7 @@ using Action = MoBro.Plugin.SDK.Models.Actions.Action;
 
 namespace MoBro.Plugin.Media.Handlers;
 
-public class MediaHandler(IMoBroService service, IMoBroSettings settings) : AbstractHandler
+public class MediaHandler(IMoBroService service, IMoBroSettings settings, ILogger logger) : AbstractHandler
 {
   private readonly string _titlePlaceHolder = settings.GetValue<string>(Ids.Setting.TitlePlaceholder, "");
 
@@ -56,8 +57,8 @@ public class MediaHandler(IMoBroService service, IMoBroSettings settings) : Abst
   public override async IAsyncEnumerable<MetricValue> GetMetricValues()
   {
     // master volume
-    yield return Value(Ids.Metric.MasterVolume, (int)AudioManager.GetMasterVolume());
-    yield return Value(Ids.Metric.MasterMute, AudioManager.GetMasterVolumeMute());
+    yield return Value(Ids.Metric.MasterVolume, GetMasterVolume());
+    yield return Value(Ids.Metric.MasterMute, GetMasterVolumeMute());
 
     var session = await GetSession();
     var mediaProps = session == null ? null : await session.TryGetMediaPropertiesAsync();
@@ -104,7 +105,7 @@ public class MediaHandler(IMoBroService service, IMoBroSettings settings) : Abst
   {
     var stepAmount = Math.Abs(settings.GetValue(Ids.ActionSettings.VolumeStepAmount, 1));
     var volume = AudioManager.StepMasterVolume(stepAmount);
-    service.UpdateMetricValue(Ids.Metric.MasterVolume, (int)volume);
+    service.UpdateMetricValue(Ids.Metric.MasterVolume, ToVolumeValue(volume));
     return Task.CompletedTask;
   }
 
@@ -112,7 +113,7 @@ public class MediaHandler(IMoBroService service, IMoBroSettings settings) : Abst
   {
     var stepAmount = Math.Abs(settings.GetValue(Ids.ActionSettings.VolumeStepAmount, 1));
     var volume = AudioManager.StepMasterVolume(-stepAmount);
-    service.UpdateMetricValue(Ids.Metric.MasterVolume, (int)volume);
+    service.UpdateMetricValue(Ids.Metric.MasterVolume, ToVolumeValue(volume));
     return Task.CompletedTask;
   }
 
@@ -136,6 +137,37 @@ public class MediaHandler(IMoBroService service, IMoBroSettings settings) : Abst
     service.UpdateMetricValue(Ids.Metric.MasterMute, true);
     return Task.CompletedTask;
   }
+
+  private int? GetMasterVolume()
+  {
+    try
+    {
+      return ToVolumeValue(AudioManager.GetMasterVolume());
+    }
+    catch (Exception e)
+    {
+      // e.g. no audio output device available
+      logger.LogDebug(e, "Failed to read master volume");
+      return null;
+    }
+  }
+
+  private bool? GetMasterVolumeMute()
+  {
+    try
+    {
+      return AudioManager.GetMasterVolumeMute();
+    }
+    catch (Exception e)
+    {
+      // e.g. no audio output device available
+      logger.LogDebug(e, "Failed to read master volume mute state");
+      return null;
+    }
+  }
+
+  // AudioManager returns -1 on error
+  private static int? ToVolumeValue(float volume) => volume < 0 ? null : (int)volume;
 
   private async Task<GlobalSystemMediaTransportControlsSession?> GetSession()
   {

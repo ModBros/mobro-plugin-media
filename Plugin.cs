@@ -1,4 +1,5 @@
-﻿using MoBro.Plugin.Media.Handlers;
+﻿using Microsoft.Extensions.Logging;
+using MoBro.Plugin.Media.Handlers;
 using MoBro.Plugin.SDK;
 using MoBro.Plugin.SDK.Builders;
 using MoBro.Plugin.SDK.Services;
@@ -13,11 +14,11 @@ public sealed class Plugin : IMoBroPlugin
   private readonly IMoBroScheduler _scheduler;
   private readonly IList<IHandler> _handlers;
 
-  public Plugin(IMoBroService service, IMoBroScheduler scheduler, IMoBroSettings settings)
+  public Plugin(IMoBroService service, IMoBroScheduler scheduler, IMoBroSettings settings, ILogger logger)
   {
     _service = service;
     _scheduler = scheduler;
-    _handlers = [new MediaHandler(_service, settings)];
+    _handlers = [new MediaHandler(_service, settings, logger)];
   }
 
   public void Init()

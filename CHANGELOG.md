@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Play, pause, next and previous actions no longer fail when no media session is active
+- Title, artist and playing status keep updating when no audio output device is available
+- Master volume no longer reports -1 % when it cannot be read
 
 ## 1.2.1 - 2026-06-09
 
