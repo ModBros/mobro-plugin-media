@@ -74,9 +74,8 @@ public class MediaHandler(IMoBroService service, IMoBroSettings settings) : Abst
 
   private async Task Play(IMoBroSettings _)
   {
-    var session = await GetSession();
-    var success = await session?.TryPlayAsync();
-    if (success)
+    if (await GetSession() is not { } session) return;
+    if (await session.TryPlayAsync())
     {
       service.UpdateMetricValue(Ids.Metric.Playing, true);
     }
@@ -84,9 +83,8 @@ public class MediaHandler(IMoBroService service, IMoBroSettings settings) : Abst
 
   private async Task Pause(IMoBroSettings _)
   {
-    var session = await GetSession();
-    var success = await session?.TryPauseAsync();
-    if (success)
+    if (await GetSession() is not { } session) return;
+    if (await session.TryPauseAsync())
     {
       service.UpdateMetricValue(Ids.Metric.Playing, false);
     }
@@ -94,14 +92,12 @@ public class MediaHandler(IMoBroService service, IMoBroSettings settings) : Abst
 
   private async Task Next(IMoBroSettings _)
   {
-    var session = await GetSession();
-    await session?.TrySkipNextAsync();
+    if (await GetSession() is { } session) await session.TrySkipNextAsync();
   }
 
   private async Task Previous(IMoBroSettings _)
   {
-    var session = await GetSession();
-    await session?.TrySkipPreviousAsync();
+    if (await GetSession() is { } session) await session.TrySkipPreviousAsync();
   }
 
   private Task VolumeUp(IMoBroSettings settings)
