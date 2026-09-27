@@ -46,7 +46,7 @@ public class MediaHandler(IMoBroService service, IMoBroSettings settings, ILogge
       Action(Ids.Action.Next, Next, groupId: Ids.Group.NowPlaying),
       Action(Ids.Action.Previous, Previous, groupId: Ids.Group.NowPlaying),
       Action(Ids.Action.MasterVolumeUp, VolumeUp, Ids.Metric.MasterVolume, Ids.Group.Volume, volumeStepAmountSetting),
-      Action(Ids.Action.MaterVolumeDown, VolumeDown, Ids.Metric.MasterVolume, Ids.Group.Volume,
+      Action(Ids.Action.MasterVolumeDown, VolumeDown, Ids.Metric.MasterVolume, Ids.Group.Volume,
         volumeStepAmountSetting),
       Action(Ids.Action.MasterMuteOn, MuteOn, Ids.Metric.MasterMute, Ids.Group.Volume),
       Action(Ids.Action.MasterMuteOff, MuteOff, Ids.Metric.MasterMute, Ids.Group.Volume),

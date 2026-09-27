@@ -25,7 +25,7 @@ internal static class Ids
   internal static class Action
   {
     internal const string MasterVolumeUp = "a_mvol_up";
-    internal const string MaterVolumeDown = "a_mvol_down";
+    internal const string MasterVolumeDown = "a_mvol_down";
     internal const string Play = "a_play";
     internal const string Pause = "a_pause";
     internal const string Next = "a_next";
