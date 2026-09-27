@@ -167,7 +167,7 @@ public class MediaHandler(IMoBroService service, IMoBroSettings settings, ILogge
   }
 
   // AudioManager returns -1 on error
-  private static int? ToVolumeValue(float volume) => volume < 0 ? null : (int)volume;
+  private static int? ToVolumeValue(float volume) => volume < 0 ? null : (int)Math.Round(volume);
 
   private async Task<GlobalSystemMediaTransportControlsSession?> GetSession()
   {
