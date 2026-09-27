@@ -14,7 +14,9 @@ public class MediaHandler(IMoBroService service, IMoBroSettings settings, ILogge
 {
   private readonly string _titlePlaceHolder = settings.GetValue<string>(Ids.Setting.TitlePlaceholder, "");
 
+  private readonly Lock _lock = new();
   private GlobalSystemMediaTransportControlsSessionManager? _sm;
+  private GlobalSystemMediaTransportControlsSession? _session;
 
   public override IEnumerable<Metric> GetMetrics()
   {
@@ -61,16 +63,26 @@ public class MediaHandler(IMoBroService service, IMoBroSettings settings, ILogge
     yield return Value(Ids.Metric.MasterMute, GetMasterVolumeMute());
 
     var session = await GetSession();
+    foreach (var value in await GetMediaValues(session))
+    {
+      yield return value;
+    }
+  }
+
+  private async Task<MetricValue[]> GetMediaValues(GlobalSystemMediaTransportControlsSession? session)
+  {
     var mediaProps = session == null ? null : await session.TryGetMediaPropertiesAsync();
-
-    // artist + title
-    yield return Value(Ids.Metric.Title, mediaProps?.Title ?? _titlePlaceHolder);
-    yield return Value(Ids.Metric.Artist, mediaProps?.Artist ?? "");
-
-    // playing status
     var playbackInfo = session?.GetPlaybackInfo();
     var isPlaying = playbackInfo?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing;
-    yield return Value(Ids.Metric.Playing, isPlaying);
+
+    return
+    [
+      // artist + title
+      Value(Ids.Metric.Title, mediaProps?.Title ?? _titlePlaceHolder),
+      Value(Ids.Metric.Artist, mediaProps?.Artist ?? ""),
+      // playing status
+      Value(Ids.Metric.Playing, isPlaying)
+    ];
   }
 
   private async Task Play(IMoBroSettings _)
@@ -172,10 +184,87 @@ public class MediaHandler(IMoBroService service, IMoBroSettings settings, ILogge
   private async Task<GlobalSystemMediaTransportControlsSession?> GetSession()
   {
     var session = _sm?.GetCurrentSession();
-    if (session != null) return session;
-    // the SessionManager seems to not pick up media sessions if it was created while there was no active session
-    // so in this case we just recreate it
-    _sm = await GlobalSystemMediaTransportControlsSessionManager.RequestAsync();
-    return _sm.GetCurrentSession();
+    if (session == null)
+    {
+      // the SessionManager seems to not pick up media sessions if it was created while there was no active session
+      // so in this case we just recreate it
+      var sm = await GlobalSystemMediaTransportControlsSessionManager.RequestAsync();
+      SetSessionManager(sm);
+      session = sm.GetCurrentSession();
+    }
+
+    SetSession(session);
+    return session;
+  }
+
+  // subscribe to change events to push updates immediately instead of waiting for the next poll
+  private void SetSessionManager(GlobalSystemMediaTransportControlsSessionManager sm)
+  {
+    lock (_lock)
+    {
+      if (_sm != null) _sm.CurrentSessionChanged -= OnCurrentSessionChanged;
+      _sm = sm;
+      _sm.CurrentSessionChanged += OnCurrentSessionChanged;
+    }
+  }
+
+  private void SetSession(GlobalSystemMediaTransportControlsSession? session)
+  {
+    lock (_lock)
+    {
+      if (ReferenceEquals(_session, session)) return;
+
+      if (_session != null)
+      {
+        _session.MediaPropertiesChanged -= OnMediaPropertiesChanged;
+        _session.PlaybackInfoChanged -= OnPlaybackInfoChanged;
+      }
+
+      _session = session;
+
+      if (_session != null)
+      {
+        _session.MediaPropertiesChanged += OnMediaPropertiesChanged;
+        _session.PlaybackInfoChanged += OnPlaybackInfoChanged;
+      }
+    }
+  }
+
+  private void OnCurrentSessionChanged(
+    GlobalSystemMediaTransportControlsSessionManager sender,
+    CurrentSessionChangedEventArgs args
+  )
+  {
+    var session = sender.GetCurrentSession();
+    SetSession(session);
+    PushMediaValues(session);
+  }
+
+  private void OnMediaPropertiesChanged(
+    GlobalSystemMediaTransportControlsSession sender,
+    MediaPropertiesChangedEventArgs args
+  ) => PushMediaValues(sender);
+
+  private void OnPlaybackInfoChanged(
+    GlobalSystemMediaTransportControlsSession sender,
+    PlaybackInfoChangedEventArgs args
+  ) => PushMediaValues(sender);
+
+  private async void PushMediaValues(GlobalSystemMediaTransportControlsSession? session)
+  {
+    try
+    {
+      // ignore late events of a session that is no longer the current one
+      if (!ReferenceEquals(session, _session)) return;
+
+      foreach (var value in await GetMediaValues(session))
+      {
+        service.UpdateMetricValue(value);
+      }
+    }
+    catch (Exception e)
+    {
+      logger.LogDebug(e, "Failed to push media metric values");
+    }
   }
 }

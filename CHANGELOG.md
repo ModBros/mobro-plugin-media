@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.2.2 - Unreleased
 
+### Changed
+
+- Title, artist and playing status update immediately when the media changes instead of up to 2 seconds later
+
 ### Fixed
 
 - Play, pause, next and previous actions no longer fail when no media session is active
