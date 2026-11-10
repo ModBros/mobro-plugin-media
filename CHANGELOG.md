@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Title, artist and playing status keep updating when no audio output device is available
 - Master volume no longer reports -1 % when it cannot be read
 - Master volume is rounded instead of truncated (e.g. no longer shows 29 % instead of 30 %)
+- Media change events are unsubscribed when the plugin shuts down
 
 ## 1.2.1 - 2026-06-09
 

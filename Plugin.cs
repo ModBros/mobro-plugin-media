@@ -49,6 +49,14 @@ public sealed class Plugin : IMoBroPlugin
     _scheduler.Interval(OnTimer, UpdateInterval, UpdateInterval);
   }
 
+  public void Shutdown()
+  {
+    foreach (var handler in _handlers)
+    {
+      (handler as IDisposable)?.Dispose();
+    }
+  }
+
   private void OnTimer()
   {
     Task.Run(async () =>

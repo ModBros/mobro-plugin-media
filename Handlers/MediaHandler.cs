@@ -10,13 +10,14 @@ using Action = MoBro.Plugin.SDK.Models.Actions.Action;
 
 namespace MoBro.Plugin.Media.Handlers;
 
-public class MediaHandler(IMoBroService service, IMoBroSettings settings, ILogger logger) : AbstractHandler
+public class MediaHandler(IMoBroService service, IMoBroSettings settings, ILogger logger) : AbstractHandler, IDisposable
 {
   private readonly string _titlePlaceHolder = settings.GetValue<string>(Ids.Setting.TitlePlaceholder, "");
 
   private readonly Lock _lock = new();
   private GlobalSystemMediaTransportControlsSessionManager? _sm;
   private GlobalSystemMediaTransportControlsSession? _session;
+  private bool _disposed;
 
   public override IEnumerable<Metric> GetMetrics()
   {
@@ -202,6 +203,8 @@ public class MediaHandler(IMoBroService service, IMoBroSettings settings, ILogge
   {
     lock (_lock)
     {
+      // a poll or action may still be running after shutdown, don't subscribe again
+      if (_disposed) return;
       if (_sm != null) _sm.CurrentSessionChanged -= OnCurrentSessionChanged;
       _sm = sm;
       _sm.CurrentSessionChanged += OnCurrentSessionChanged;
@@ -212,6 +215,7 @@ public class MediaHandler(IMoBroService service, IMoBroSettings settings, ILogge
   {
     lock (_lock)
     {
+      if (_disposed) session = null;
       if (ReferenceEquals(_session, session)) return;
 
       if (_session != null)
@@ -228,6 +232,18 @@ public class MediaHandler(IMoBroService service, IMoBroSettings settings, ILogge
         _session.PlaybackInfoChanged += OnPlaybackInfoChanged;
       }
     }
+  }
+
+  // unsubscribe from all change events, Windows would otherwise keep calling this handler after shutdown
+  public void Dispose()
+  {
+    lock (_lock)
+    {
+      _disposed = true;
+      if (_sm != null) _sm.CurrentSessionChanged -= OnCurrentSessionChanged;
+    }
+
+    SetSession(null);
   }
 
   private void OnCurrentSessionChanged(
